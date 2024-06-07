@@ -5,13 +5,16 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\ProductsModel;
+use App\Models\CategoriesModel;
 
 class Products extends BaseController
 {
     private $productModel;
+    private $categoryModel;
     public function __construct()
     {
         $this->productModel = new ProductsModel();
+        $this->categoryModel = new CategoriesModel();
     }
     public function index()
     {
@@ -25,7 +28,8 @@ class Products extends BaseController
     public function createProduct()
     {
         $data = [
-            'title' => 'create product'
+            'title' => 'create product',
+            'categories' => $this->categoryModel->findAll()
         ];
         return view('products/create', $data);
     }

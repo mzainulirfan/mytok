@@ -29,4 +29,17 @@ class Categories extends BaseController
         ];
         return view('categories/create', $data);
     }
+    public function saveCategory()
+    {
+        $categoryName =  $this->request->getVar('categoryName');
+        $data = [
+            'category_name' =>  $categoryName,
+            'category_slug' =>  url_title($categoryName, '-', true),
+            'category_description' =>  $this->request->getVar('categoryDescription'),
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+        $this->categoryModel->save($data);
+        return redirect()->to('categories');
+    }
 }

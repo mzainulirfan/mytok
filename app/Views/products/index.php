@@ -1,6 +1,6 @@
 <?= $this->extend('layout'); ?>
 <?= $this->section('content'); ?>
-<h1 class="text-2xl font-semibold">Products</h1>
+<h1 class="text-2xl font-semibold capitalize">Products</h1>
 
 <div class="mt-6 border p-4 py-6 rounded-lg">
     <?php if (!empty($products)) : ?>

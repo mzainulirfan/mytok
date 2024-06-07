@@ -1,11 +1,11 @@
 <?= $this->extend('layout'); ?>
 <?= $this->section('content'); ?>
-<h1 class="text-2xl font-semibold">Products</h1>
+<h1 class="text-2xl font-semibold capitalize">categories</h1>
 
 <div class="mt-6 border p-4 py-6 rounded-lg">
     <?php if (!empty($categories)) : ?>
-        <a href="<?= base_url(); ?>product/create" class="border px-4 py-2 rounded-lg capitalize">Create product</a>
-        <a href="<?= base_url(); ?>categories" class="border px-4 py-2 rounded-lg capitalize">categories</a>
+        <a href="<?= base_url(); ?>product" class="border px-4 py-2 rounded-lg capitalize">products</a>
+        <a href="<?= base_url(); ?>categories/create" class="border px-4 py-2 rounded-lg capitalize">create category</a>
         <div class="relative overflow-x-auto border rounded-lg my-4">
             <table class="w-full text-sm text-left text-gray-500 ">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">

@@ -12,3 +12,4 @@ $routes->post('/product/save', 'Products::saveProduct');
 
 $routes->get('/categories', 'Categories::index');
 $routes->get('/categories/create', 'Categories::createcategories');
+$routes->post('/categories/save', 'Categories::saveCategory');
