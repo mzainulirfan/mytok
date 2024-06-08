@@ -55,7 +55,6 @@ class Products extends BaseController
             'product_category' =>  $this->request->getVar('productCategory'),
             'product_desc' =>  $this->request->getVar('productDescription'),
             'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s')
         ];
         $this->productModel->save($data);
         session()->setFlashdata('success', 'product has been seved successfully');
@@ -69,5 +68,21 @@ class Products extends BaseController
             'categories' => $this->categoryModel->findAll()
         ];
         return view('products/edit', $data);
+    }
+    public function updateProduct($productId)
+    {
+        // dd($this->request->getVar());
+        $productName =  $this->request->getVar('productName');
+        $data = [
+            'product_id' =>  $this->request->getVar('productId'),
+            'product_name' =>  $productName,
+            'product_price' =>  $this->request->getVar('productPrice'),
+            'product_stock' =>  $this->request->getVar('productStock'),
+            'product_category' =>  $this->request->getVar('productCategory'),
+            'product_desc' =>  $this->request->getVar('productDescription'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+        $this->productModel->save($data);
+        return redirect()->to(base_url() . 'product');
     }
 }

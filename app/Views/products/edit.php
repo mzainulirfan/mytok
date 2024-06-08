@@ -2,7 +2,9 @@
 <?= $this->section('content'); ?>
 <h1 class="text-2xl font-semibold">Edit <?= esc($product['product_name']); ?></h1>
 <div class="mt-6 border p-6 rounded-lg">
-    <form action="<?= base_url(); ?>product/update" method="post" class="w-8/12 space-y-4">
+    <form action="<?= base_url(); ?>product/update/<?= $product['product_id']; ?>" method="post" class="w-8/12 space-y-4">
+        <?= csrf_field() ?>
+        <input type="hidden" name="productId" value="<?= esc($product['product_id']); ?>">
         <div class="flex flex-col space-y-1.5">
             <label for="productName">Product Name</label>
             <input type="text" value="<?= esc($product['product_name']); ?>" name="productName" id="productName" placeholder="product name" class="border p-2 rounded-lg outline-none <?= (session()->has('validation') && ($validation = session('validation'))->hasError('productName')) ? 'invalid' : 'form-control' ?>">
@@ -39,11 +41,11 @@
             <?php endif ?>
         </div>
         <div class="flex flex-col space-y-1.5">
-            <label for="producttock">Stock</label>
-            <input type="text" value="<?= esc($product['product_stock']); ?>" name="producttock" id="producttock" placeholder="product Stock" class="border p-2 rounded-lg outline-none <?= (session()->has('validation') && ($validation = session('validation'))->hasError('producttock')) ? 'invalid' : 'form-control' ?>">
-            <?php if (session()->has('validation') && ($validation = session('validation'))->hasError('producttock')) : ?>
+            <label for="productStock">Stock</label>
+            <input type="text" value="<?= esc($product['product_stock']); ?>" name="productStock" id="productStock" placeholder="product Stock" class="border p-2 rounded-lg outline-none <?= (session()->has('validation') && ($validation = session('validation'))->hasError('productStock')) ? 'invalid' : 'form-control' ?>">
+            <?php if (session()->has('validation') && ($validation = session('validation'))->hasError('productStock')) : ?>
                 <div class=" text-red-500 text-xs">
-                    <?= $validation->getError('producttock'); ?>
+                    <?= $validation->getError('productStock'); ?>
                 </div>
             <?php endif ?>
         </div>
