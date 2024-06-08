@@ -63,4 +63,13 @@ class ProductsModel extends Model
             ->get()
             ->getResultArray();
     }
+    public function getDetailProduct($slugProduct)
+    {
+        return $this->db->table($this->table)
+            ->select('products.*, categories.category_name')
+            ->join('categories', 'categories.category_id=products.product_category')
+            ->where('product_slug', $slugProduct)
+            ->get()
+            ->getRowArray();
+    }
 }

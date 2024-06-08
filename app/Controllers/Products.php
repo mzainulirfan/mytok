@@ -36,6 +36,17 @@ class Products extends BaseController
     public function saveProduct()
     {
         $productName =  $this->request->getVar('productName');
+        $validationRules = [
+            'productName' => 'required|min_length[5]|is_unique[products.product_name]',
+            'productStock' => 'required|numeric',
+            'productPrice' => 'required|numeric',
+            'productCategory' => 'required',
+            'productDescription' => 'required',
+        ];
+        if (!$this->validate($validationRules)) {
+            return redirect()->back()->withInput()->with('validation', $this->validator);
+        }
+
         $data = [
             'product_name' =>  $productName,
             'product_price' =>  $this->request->getVar('productPrice'),
@@ -47,6 +58,16 @@ class Products extends BaseController
             'updated_at' => date('Y-m-d H:i:s')
         ];
         $this->productModel->save($data);
+        session()->setFlashdata('success', 'product has been seved successfully');
         return redirect()->to(base_url() . 'product');
+    }
+    public function editProduct($slugProduct)
+    {
+        $data = [
+            'title' => 'edit product',
+            'product' => $this->productModel->getDetailProduct($slugProduct),
+            'categories' => $this->categoryModel->findAll()
+        ];
+        return view('products/edit', $data);
     }
 }

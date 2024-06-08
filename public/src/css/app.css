@@ -8,4 +8,10 @@
   .active {
     @apply bg-gray-500 text-white;
   }
+  .invalid {
+    @apply bg-red-50 text-red-900 placeholder-red-700 ring ring-red-500;
+  }
+  .form-control {
+    @apply focus:ring focus:ring-gray-400;
+  }
 }
