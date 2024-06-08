@@ -35,6 +35,8 @@ class Products extends BaseController
     }
     public function saveProduct()
     {
+        $isActive = $this->request->getVar('isActive') === 'on' ? 1 : 0;
+        // dd($isActive);
         $productName =  $this->request->getVar('productName');
         $validationRules = [
             'productName' => 'required|min_length[5]|is_unique[products.product_name]',
@@ -54,6 +56,7 @@ class Products extends BaseController
             'product_slug' =>  url_title($productName, '-', true),
             'product_category' =>  $this->request->getVar('productCategory'),
             'product_desc' =>  $this->request->getVar('productDescription'),
+            'product_is_active' =>  $isActive,
             'created_at' => date('Y-m-d H:i:s'),
         ];
         $this->productModel->save($data);
@@ -63,9 +66,12 @@ class Products extends BaseController
     public function detailProduct($slugProduct)
     {
         $product = $this->productModel->where('product_slug', $slugProduct)->first();
+        if (!$product) {
+            return "<script>alert('Product $slugProduct not found'); window.location.href = '" . base_url() . "product';</script>";
+        }
         $productName = $product['product_name'];
         $data = [
-            'title' => 'edit ' . $productName,
+            'title' => $productName,
             'product' => $this->productModel->getDetailProduct($slugProduct)
         ];
         return view('products/detail', $data);
@@ -73,6 +79,9 @@ class Products extends BaseController
     public function editProduct($slugProduct)
     {
         $product = $this->productModel->where('product_slug', $slugProduct)->first();
+        if (!$product) {
+            return redirect()->to(base_url() . 'product');
+        }
         $productName = $product['product_name'];
         $data = [
             'title' => 'edit ' . $productName,

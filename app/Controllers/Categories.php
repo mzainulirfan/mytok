@@ -49,7 +49,7 @@ class Categories extends BaseController
             'created_at' => date('Y-m-d H:i:s')
         ];
         $this->categoryModel->save($data);
-        session()->setFlashdata('success', 'category has been seved successfully');
+        session()->setFlashdata('success', 'category has been saved successfully');
         return redirect()->to('categories');
     }
     public function editCategories($categorySlug)
@@ -97,13 +97,15 @@ class Categories extends BaseController
             'updated_at' => date('Y-m-d H:i:s')
         ];
         $this->categoryModel->save($data);
+        session()->setFlashdata('success', 'category has been updated successfully');
         return redirect()->to('categories');
     }
     public function deleteCategory($categoryId)
     {
         $relatedProducts = $this->productModel->where('product_category', $categoryId)->findAll();
         if (!empty($relatedProducts)) {
-            throw new \Exception('Cannot delete category because there are related products.');
+            return "<script>alert('Cannot delete category because there are related products.'); window.location.href = '" . base_url() . "categories';</script>";
+            // throw new \Exception('Cannot delete category because there are related products.');
         }
         $this->categoryModel->delete($categoryId);
         session()->setFlashdata('success', 'category has been deleted successfully');

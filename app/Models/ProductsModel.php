@@ -32,7 +32,7 @@ class ProductsModel extends Model
     protected array $castHandlers = [];
 
     // Dates
-    protected $useTimestamps = false;
+    protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
@@ -58,7 +58,7 @@ class ProductsModel extends Model
     public function getAllProducts()
     {
         return $this->db->table($this->table)
-            ->select('products.*, categories.category_name')
+            ->select('products.*, categories.category_name, categories.category_slug')
             ->join('categories', 'categories.category_id=products.product_category')
             ->get()
             ->getResultArray();

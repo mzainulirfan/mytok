@@ -43,7 +43,7 @@
                                 <a href="<?= base_url(); ?>product/<?= esc($product['product_slug']); ?>/detail" class="hover:underline hover:text-blue-500 transition duration-200"><?= esc($product['product_name']); ?></a>
                             </th>
                             <td class="px-6 py-4">
-                                <?= esc($product['category_name']); ?>
+                                <a href="<?= base_url(); ?>categories/<?= esc($product['category_slug']); ?>/detail"><?= esc($product['category_name']); ?></a>
                             </td>
                             <td class="px-6 py-4">
                                 <?= esc($product['product_price']); ?>

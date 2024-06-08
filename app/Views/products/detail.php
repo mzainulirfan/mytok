@@ -7,6 +7,8 @@
     <h5 class="text-xl capitalize font-semibold"><?= $product['product_name']; ?></h5>
     <p class="mt-4 text-lg">Rp. <?= esc($product['product_price']); ?></p>
     <p class="mt-4"><?= esc($product['product_desc']); ?></p>
+    <p>created at <?= esc($product['created_at']); ?></p>
+    <p>updated at <?= esc($product['updated_at']); ?></p>
   </div>
 </div>
 

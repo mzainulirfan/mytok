@@ -42,7 +42,7 @@
                 </tbody>
             </table>
             <nav class="flex items-center flex-column flex-wrap justify-between p-4" aria-label="Table navigation">
-                <span class="text-sm font-normal text-gray-500 mb-4 block w-full md:inline md:w-auto">Total Product <span class="font-semibold text-gray-900"><?= $categoriesCount; ?></span></span>
+                <span class="text-sm font-normal text-gray-500 mb-4 block w-full md:inline md:w-auto">Total Product <span class="font-semibold text-gray-900 border p-2 rounded-lg bg-gray-100"><?= $categoriesCount; ?></span></span>
                 <ul class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
                     <li>
                         <a href="#" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700">Previous</a>

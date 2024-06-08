@@ -48,6 +48,12 @@
                 </div>
             <?php endif ?>
         </div>
+        <div class="flex items-center space-x-2">
+            <input type="checkbox" name="isActive" id="isActive" checked>
+            <label for="isActive">
+                Publish this product?
+            </label>
+        </div>
         <button class="border p-2 rounded-lg outline-none form-control hover:bg-gray-200 hover:text-slate-900 transition duration-200" type="submit">Save</button>
     </form>
 </div>
