@@ -5,13 +5,16 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\CategoriesModel;
+use App\Models\ProductsModel;
 
 class Categories extends BaseController
 {
     private $categoryModel;
+    private $productModel;
     public function __construct()
     {
         $this->categoryModel = new CategoriesModel();
+        $this->productModel = new ProductsModel();
     }
     public function index()
     {
@@ -57,10 +60,23 @@ class Categories extends BaseController
         ];
         return view('categories/edit', $data);
     }
+    public function detailCategories($categorySlug)
+    {
+        $category = $this->categoryModel->where('category_slug', $categorySlug)->first();
+        $categoryId = $category['category_id'];
+        $relatedCategory = $this->productModel->where('product_category', $categoryId)->findAll();
+        // dd($relatedCategory);
+        $data = [
+            'title' => 'detail category',
+            'category' => $this->categoryModel->where('category_slug', $categorySlug)->first(),
+            'relatedCategory' => $relatedCategory
+        ];
+        return view('categories/detail', $data);
+    }
     public function udpateCategory($categoryId)
     {
         $newCategoryName =  $this->request->getVar('categoryName');
-        $category = $this->categoryModel->where('category_id', $categoryId)->first();
+        $category = $this->categoryModel->find($categoryId);
         $currentCategoryName = $category['category_name'];
         if ($newCategoryName == $currentCategoryName) {
             $categoryNameRules = 'required|min_length[5]';
@@ -81,6 +97,16 @@ class Categories extends BaseController
             'updated_at' => date('Y-m-d H:i:s')
         ];
         $this->categoryModel->save($data);
+        return redirect()->to('categories');
+    }
+    public function deleteCategory($categoryId)
+    {
+        $relatedProducts = $this->productModel->where('product_category', $categoryId)->findAll();
+        if (!empty($relatedProducts)) {
+            throw new \Exception('Cannot delete category because there are related products.');
+        }
+        $this->categoryModel->delete($categoryId);
+        session()->setFlashdata('success', 'category has been deleted successfully');
         return redirect()->to('categories');
     }
 }

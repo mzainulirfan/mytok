@@ -23,7 +23,7 @@
         </div>
       <?php endif ?>
     </div>
-    <button class="border p-2 rounded-lg outline-none focus:ring focus:ring-gray-400" type="submit">Save</button>
+    <button class="border p-2 rounded-lg outline-none focus:ring focus:ring-gray-400 hover:bg-gray-200 hover:text-slate-900 transition duration-200" type="submit">Save</button>
   </form>
 </div>
 <?= $this->endSection(); ?>

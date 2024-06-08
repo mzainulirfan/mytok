@@ -60,6 +60,16 @@ class Products extends BaseController
         session()->setFlashdata('success', 'product has been seved successfully');
         return redirect()->to(base_url() . 'product');
     }
+    public function detailProduct($slugProduct)
+    {
+        $product = $this->productModel->where('product_slug', $slugProduct)->first();
+        $productName = $product['product_name'];
+        $data = [
+            'title' => 'edit ' . $productName,
+            'product' => $this->productModel->getDetailProduct($slugProduct)
+        ];
+        return view('products/detail', $data);
+    }
     public function editProduct($slugProduct)
     {
         $product = $this->productModel->where('product_slug', $slugProduct)->first();
@@ -74,7 +84,7 @@ class Products extends BaseController
     public function updateProduct($productId)
     {
         $newProductName =  $this->request->getVar('productName');
-        $product = $this->productModel->where('product_id', $productId)->first();
+        $product = $this->productModel->find($productId);
         $currentProductName = $product['product_name'];
         if ($newProductName == $currentProductName) {
             $productNameRules = 'required|min_length[5]';
@@ -104,5 +114,11 @@ class Products extends BaseController
         $this->productModel->save($data);
         session()->setFlashdata('success', 'product has been updated successfully');
         return redirect()->to(base_url() . 'product');
+    }
+    public function deleteProduct($productId)
+    {
+        $this->productModel->delete($productId);
+        session()->setFlashdata('success', 'product has been deleted successfully');
+        return redirect()->to('product');
     }
 }

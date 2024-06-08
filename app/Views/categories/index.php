@@ -9,16 +9,16 @@
 
 <div class="mt-6 border p-4 py-6 rounded-lg">
     <?php if (!empty($categories)) : ?>
-        <a href="<?= base_url(); ?>product" class="border px-4 py-2 rounded-lg capitalize">products</a>
-        <a href="<?= base_url(); ?>categories/create" class="border px-4 py-2 rounded-lg capitalize">create category</a>
+        <a href="<?= base_url(); ?>product" class="border px-4 py-2 rounded-lg capitalize hover:bg-gray-200 hover:text-slate-900 transition duration-200">products</a>
+        <a href="<?= base_url(); ?>categories/create" class="border px-4 py-2 rounded-lg capitalize hover:bg-gray-200 hover:text-slate-900 transition duration-200">create category</a>
         <div class="relative overflow-x-auto border rounded-lg my-4">
             <table class="w-full text-sm text-left text-gray-500 ">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="px-6 py-3 w-10/12">
                             Category name
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="px-6 py-3 text-center">
                             Action
                         </th>
                     </tr>
@@ -26,11 +26,16 @@
                 <tbody>
                     <?php foreach ($categories as $category) : ?>
                         <tr class="bg-white border-b hover:bg-gray-50">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                <?= esc($category['category_name']); ?>
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap w-10/12">
+                                <a href="<?= base_url(); ?>categories/<?= esc($category['category_slug']); ?>/detail"><?= esc($category['category_name']); ?></a>
                             </th>
-                            <td class="px-6 py-4">
+                            <td class="px-6 py-4 text-center flex items-center space-x-2">
                                 <a href="<?= base_url(); ?>categories/<?= esc($category['category_slug']); ?>/edit" class=" font-medium text-blue-600 hover:underline">Edit</a>
+                                <form action="<?= base_url(); ?>categories/<?= esc($category['category_id']); ?>" method="post">
+                                    <?= csrf_field(); ?>
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button type="submit" title="delete" onclick="return confirm('Apakah yakin data <?= esc($category['category_name']); ?> mau dihapus?')" class="font-medium text-red-600 hover:underline">Delete</button>
+                                </form>
                             </td>
                         </tr>
                     <?php endforeach; ?>
