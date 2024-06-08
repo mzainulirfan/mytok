@@ -7,6 +7,7 @@
         <?= session()->getFlashdata('success'); ?>
     </div>
 <?php endif; ?>
+
 <div class="mt-6 border p-4 py-6 rounded-lg">
     <?php if (!empty($products)) : ?>
         <a href="<?= base_url(); ?>product/create" class="border px-4 py-2 rounded-lg capitalize">Create product</a>
@@ -37,8 +38,8 @@
                 </thead>
                 <tbody>
                     <?php foreach ($products as $product) : ?>
-                        <tr class="bg-white border-b dark:bg-gray-800 hover:bg-gray-50">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <tr class="bg-white border-b hover:bg-gray-50">
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                 <?= esc($product['product_name']); ?>
                             </th>
                             <td class="px-6 py-4">
@@ -48,13 +49,17 @@
                                 <?= esc($product['product_price']); ?>
                             </td>
                             <td class="px-6 py-4">
-                                <?= esc($product['product_is_active']); ?>
+                                <?php if ($product['product_is_active'] == true) : ?>
+                                    <span class="bg-green-200/30 text-green-800 font-semibold text-sm px-2 py-0.5 capitalize rounded-lg">publish</span>
+                                <?php else : ?>
+                                    <span class="bg-red-200/30 text-red-800 font-semibold text-sm px-2 py-0.5 capitalize rounded-lg">pending</span>
+                                <?php endif ?>
                             </td>
                             <td class="px-6 py-4">
                                 <?= esc($product['product_stock']); ?>
                             </td>
                             <td class="px-6 py-4 flex space-x-2 items-center">
-                                <a href="<?= base_url(); ?>product/<?= esc($product['product_slug']); ?>/edit" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                <a href="<?= base_url(); ?>product/<?= esc($product['product_slug']); ?>/edit" class="font-medium text-blue-600 hover:underline">Edit</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

@@ -62,8 +62,10 @@ class Products extends BaseController
     }
     public function editProduct($slugProduct)
     {
+        $product = $this->productModel->where('product_slug', $slugProduct)->first();
+        $productName = $product['product_name'];
         $data = [
-            'title' => 'edit product',
+            'title' => 'edit ' . $productName,
             'product' => $this->productModel->getDetailProduct($slugProduct),
             'categories' => $this->categoryModel->findAll()
         ];
@@ -71,11 +73,28 @@ class Products extends BaseController
     }
     public function updateProduct($productId)
     {
-        // dd($this->request->getVar());
-        $productName =  $this->request->getVar('productName');
+        $newProductName =  $this->request->getVar('productName');
+        $product = $this->productModel->where('product_id', $productId)->first();
+        $currentProductName = $product['product_name'];
+        if ($newProductName == $currentProductName) {
+            $productNameRules = 'required|min_length[5]';
+        } else {
+            $productNameRules = 'required|min_length[5]|is_unique[products.product_name]';
+        }
+        $validationRules = [
+            'productName' => $productNameRules,
+            'productStock' => 'required|numeric',
+            'productPrice' => 'required|numeric',
+            'productCategory' => 'required',
+            'productDescription' => 'required',
+        ];
+        if (!$this->validate($validationRules)) {
+            return redirect()->back()->withInput()->with('validation', $this->validator);
+        }
+
         $data = [
             'product_id' =>  $this->request->getVar('productId'),
-            'product_name' =>  $productName,
+            'product_name' =>  $newProductName,
             'product_price' =>  $this->request->getVar('productPrice'),
             'product_stock' =>  $this->request->getVar('productStock'),
             'product_category' =>  $this->request->getVar('productCategory'),
@@ -83,6 +102,7 @@ class Products extends BaseController
             'updated_at' => date('Y-m-d H:i:s')
         ];
         $this->productModel->save($data);
+        session()->setFlashdata('success', 'product has been updated successfully');
         return redirect()->to(base_url() . 'product');
     }
 }
