@@ -24,3 +24,6 @@ $routes->delete('/categories/(:num)', 'Categories::deleteCategory/$1');
 
 $routes->get('/orders', 'Orders::index');
 $routes->get('/orders/create', 'Orders::createOrder');
+$routes->post('/orders/addToCart', 'Orders::addToCart');
+$routes->post('/orders/clearCart', 'Orders::clearCart');
+$routes->post('/orders/removeFromCart', 'Orders::removeFromCart');
