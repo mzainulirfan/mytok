@@ -1,8 +1,8 @@
 <?= $this->extend('layout'); ?>
 <?= $this->section('content'); ?>
 <h1 class="text-2xl font-semibold">Edit <?= esc($product['product_name']); ?></h1>
-<div class="mt-6 border p-6 rounded-lg">
-    <form action="<?= base_url(); ?>product/update/<?= $product['product_id']; ?>" method="post" class="w-8/12 space-y-4">
+<div class="mt-6 p-6 rounded-lg">
+    <form action="<?= base_url(); ?>product/update/<?= $product['product_id']; ?>" method="post" class="w-8/12 mx-auto space-y-4 border p-8 rounded-lg shadow-2xl">
         <?= csrf_field() ?>
         <input type="hidden" name="productId" value="<?= esc($product['product_id']); ?>">
         <div class="flex flex-col space-y-1.5">
@@ -48,6 +48,12 @@
                     <?= $validation->getError('productStock'); ?>
                 </div>
             <?php endif ?>
+        </div>
+        <div class="flex items-center space-x-2">
+            <input type="checkbox" name="isActive" id="isActive" class="rounded" <?= esc($product['product_is_active']) ? 'checked' : ''; ?>>
+            <label for="isActive">
+                Publish this product?
+            </label>
         </div>
         <button class="border p-2 rounded-lg outline-none form-control hover:bg-gray-200 hover:text-slate-900 transition duration-200" type="submit">Save</button>
     </form>

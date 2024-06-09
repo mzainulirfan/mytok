@@ -10,7 +10,9 @@
 <div class="mt-6 border p-4 py-6 rounded-lg">
     <?php if (!empty($categories)) : ?>
         <a href="<?= base_url(); ?>product" class="border px-4 py-2 rounded-lg capitalize hover:bg-gray-200 hover:text-slate-900 transition duration-200">products</a>
-        <a href="<?= base_url(); ?>categories/create" class="border px-4 py-2 rounded-lg capitalize hover:bg-gray-200 hover:text-slate-900 transition duration-200">create category</a>
+        <button data-modal-target="create-modal" data-modal-toggle="create-modal" class="border px-4 py-2 rounded-lg capitalize hover:bg-gray-200 hover:text-slate-900 transition duration-200" type="button">
+            Create Category
+        </button>
         <div class="relative overflow-x-auto border rounded-lg my-4">
             <table class="w-full text-sm text-left text-gray-500 ">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -19,7 +21,7 @@
                             Category name
                         </th>
                         <th scope="col" class="px-6 py-3 text-center">
-                            Action
+                            &nbsp;
                         </th>
                     </tr>
                 </thead>
@@ -30,7 +32,7 @@
                                 <a href="<?= base_url(); ?>categories/<?= esc($category['category_slug']); ?>/detail"><?= esc($category['category_name']); ?></a>
                             </th>
                             <td class="px-6 py-4 text-center flex items-center space-x-2">
-                                <a href="<?= base_url(); ?>categories/<?= esc($category['category_slug']); ?>/edit" class=" font-medium text-blue-600 hover:underline">Edit</a>
+                                <a id="btnEdit" data-modal-target="edit-modal" data-modal-toggle="edit-modal" data-categoryid="<?= esc($category['category_id']); ?>" data-categoryname="<?= esc($category['category_name']); ?>" data-categorydescription="<?= esc($category['category_description']); ?>" class="font-medium capitalize text-blue-600 hover:underline">ubah</a>
                                 <form action="<?= base_url(); ?>categories/<?= esc($category['category_id']); ?>" method="post">
                                     <?= csrf_field(); ?>
                                     <input type="hidden" name="_method" value="DELETE">
@@ -71,8 +73,100 @@
     <?php else : ?>
         <div class="text-center">
             <p class="mb-4">No category found</p>
-            <a href="<?= base_url(); ?>categories/create" class="border px-4 py-2 rounded-lg capitalize">Create category</a>
+            <button data-modal-target="create-modal" data-modal-toggle="create-modal" class="border px-4 py-2 rounded-lg capitalize hover:bg-gray-200 hover:text-slate-900 transition duration-200" type="button">
+                Create Category
+            </button>
         </div>
     <?php endif ?>
 </div>
+<?php if (!empty($categories)) : ?>
+    <!-- edit modal -->
+    <div id="edit-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full h-[calc(100%-1rem)] max-h-full">
+        <div class="relative p-4 w-full max-w-md max-h-full">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+                    <h3 class="text-lg font-semibold text-gray-900 capitalize">
+                        Edit <span id="categoryNameLabel"></span>
+                    </h3>
+                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="edit-modal">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <form action="<?= base_url(); ?>categories/update/<?= esc($category['category_id']); ?>" method="post" class="p-5">
+                    <?= csrf_field() ?>
+                    <input type="hidden" name="categoryId" id="categoryId" value="<?= esc($category['category_id']); ?>">
+                    <div class="flex flex-col space-y-1.5 mb-3">
+                        <label for="categoryName">Category Name</label>
+                        <input type="text" name="categoryName" id="categoryName" value="<?= esc(old('categoryName')); ?>" placeholder="category name" class="border p-2 border-gray-300 rounded-lg outline-none <?= (session()->has('validation') && ($validation = session('validation'))->hasError('categoryName')) ? 'invalid' : 'form-control' ?>">
+                        <?php if (session()->has('validation') && ($validation = session('validation'))->hasError('categoryName')) : ?>
+                            <div class=" text-red-500 text-xs">
+                                <?= $validation->getError('categoryName'); ?>
+                            </div>
+                        <?php endif ?>
+                    </div>
+                    <div class="flex flex-col space-y-1.5 mb-3">
+                        <label for="categoryDescription">Description</label>
+                        <textarea name="categoryDescription" id="categoryDescription" placeholder="enter description" rows="5" class="border p-2 border-gray-300 rounded-lg outline-none resize-none <?= (session()->has('validation') && ($validation = session('validation'))->hasError('categoryDescription')) ? 'invalid' : 'form-control' ?>"><?= esc(old('categoryDescription')); ?></textarea>
+                        <?php if (session()->has('validation') && ($validation = session('validation'))->hasError('categoryDescription')) : ?>
+                            <div class=" text-red-500 text-xs">
+                                <?= $validation->getError('categoryDescription'); ?>
+                            </div>
+                        <?php endif ?>
+                    </div>
+                    <button class="border p-2 rounded-lg outline-none capitalize focus:ring focus:ring-gray-400 hover:bg-gray-200 hover:text-slate-900 transition duration-200" type="submit">update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+<?php endif ?>
+<!-- create modal -->
+<div id="create-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal header -->
+            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+                <h3 class="text-lg font-semibold text-gray-900 capitalize">
+                    Create new category
+                </h3>
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="create-modal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <form action="<?= base_url(); ?>categories/save" method="post" class="p-5">
+                <?= csrf_field() ?>
+                <div class="flex flex-col space-y-1.5 mb-3">
+                    <label for="categoryName">Category Name</label>
+                    <input type="text" name="categoryName" id="categoryName" value="<?= esc(old('categoryName')); ?>" placeholder="category name" class="border p-2 border-gray-300 rounded-lg outline-none <?= (session()->has('validation') && ($validation = session('validation'))->hasError('categoryName')) ? 'invalid' : 'form-control' ?>">
+                    <?php if (session()->has('validation') && ($validation = session('validation'))->hasError('categoryName')) : ?>
+                        <div class=" text-red-500 text-xs">
+                            <?= $validation->getError('categoryName'); ?>
+                        </div>
+                    <?php endif ?>
+                </div>
+                <div class="flex flex-col space-y-1.5 mb-3">
+                    <label for="categoryDescription">Description</label>
+                    <textarea name="categoryDescription" id="categoryDescription" placeholder="enter description" rows="5" class="border p-2 border-gray-300 rounded-lg outline-none resize-none <?= (session()->has('validation') && ($validation = session('validation'))->hasError('categoryDescription')) ? 'invalid' : 'form-control' ?>"><?= esc(old('categoryDescription')); ?></textarea>
+                    <?php if (session()->has('validation') && ($validation = session('validation'))->hasError('categoryDescription')) : ?>
+                        <div class=" text-red-500 text-xs">
+                            <?= $validation->getError('categoryDescription'); ?>
+                        </div>
+                    <?php endif ?>
+                </div>
+                <button class="border p-2 rounded-lg outline-none focus:ring focus:ring-gray-400 hover:bg-gray-200 hover:text-slate-900 transition duration-200" type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+</div>
+
 <?= $this->endSection(); ?>

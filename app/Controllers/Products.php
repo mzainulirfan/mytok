@@ -36,7 +36,6 @@ class Products extends BaseController
     public function saveProduct()
     {
         $isActive = $this->request->getVar('isActive') === 'on' ? 1 : 0;
-        // dd($isActive);
         $productName =  $this->request->getVar('productName');
         $validationRules = [
             'productName' => 'required|min_length[5]|is_unique[products.product_name]',
@@ -92,6 +91,7 @@ class Products extends BaseController
     }
     public function updateProduct($productId)
     {
+        $isActive = $this->request->getVar('isActive') === 'on' ? 1 : 0;
         $newProductName =  $this->request->getVar('productName');
         $product = $this->productModel->find($productId);
         $currentProductName = $product['product_name'];
@@ -118,6 +118,7 @@ class Products extends BaseController
             'product_stock' =>  $this->request->getVar('productStock'),
             'product_category' =>  $this->request->getVar('productCategory'),
             'product_desc' =>  $this->request->getVar('productDescription'),
+            'product_is_active' =>  $isActive,
             'updated_at' => date('Y-m-d H:i:s')
         ];
         $this->productModel->save($data);

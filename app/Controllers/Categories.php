@@ -65,7 +65,6 @@ class Categories extends BaseController
         $category = $this->categoryModel->where('category_slug', $categorySlug)->first();
         $categoryId = $category['category_id'];
         $relatedCategory = $this->productModel->where('product_category', $categoryId)->findAll();
-        // dd($relatedCategory);
         $data = [
             'title' => 'detail category',
             'category' => $this->categoryModel->where('category_slug', $categorySlug)->first(),
@@ -75,8 +74,9 @@ class Categories extends BaseController
     }
     public function udpateCategory($categoryId)
     {
+        $categoryIds =  $this->request->getVar('categoryId');
         $newCategoryName =  $this->request->getVar('categoryName');
-        $category = $this->categoryModel->find($categoryId);
+        $category = $this->categoryModel->find($categoryIds);
         $currentCategoryName = $category['category_name'];
         if ($newCategoryName == $currentCategoryName) {
             $categoryNameRules = 'required|min_length[5]';
@@ -91,12 +91,12 @@ class Categories extends BaseController
             return redirect()->back()->withInput()->with('validation', $this->validator);
         }
         $data = [
-            'category_id' =>  $this->request->getVar('categoryId'),
+            'category_id' => $categoryIds,
             'category_name' =>  $newCategoryName,
             'category_description' =>  $this->request->getVar('categoryDescription'),
             'updated_at' => date('Y-m-d H:i:s')
         ];
-        $this->categoryModel->save($data);
+        $this->categoryModel->update($categoryIds, $data);
         session()->setFlashdata('success', 'category has been updated successfully');
         return redirect()->to('categories');
     }
@@ -105,7 +105,6 @@ class Categories extends BaseController
         $relatedProducts = $this->productModel->where('product_category', $categoryId)->findAll();
         if (!empty($relatedProducts)) {
             return "<script>alert('Cannot delete category because there are related products.'); window.location.href = '" . base_url() . "categories';</script>";
-            // throw new \Exception('Cannot delete category because there are related products.');
         }
         $this->categoryModel->delete($categoryId);
         session()->setFlashdata('success', 'category has been deleted successfully');

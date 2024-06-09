@@ -21,3 +21,6 @@ $routes->get('/categories/(:segment)/edit', 'Categories::editCategories/$1/edit'
 $routes->post('/categories/save', 'Categories::saveCategory');
 $routes->post('/categories/update/(:num)', 'Categories::udpateCategory/$1');
 $routes->delete('/categories/(:num)', 'Categories::deleteCategory/$1');
+
+$routes->get('/orders', 'Orders::index');
+$routes->get('/orders/create', 'Orders::createOrder');

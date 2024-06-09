@@ -1,8 +1,8 @@
 <?= $this->extend('layout'); ?>
 <?= $this->section('content'); ?>
 <h1 class="text-2xl font-semibold">Create Product</h1>
-<div class="mt-6 border p-6 rounded-lg">
-    <form action="<?= base_url(); ?>product/save" method="post" class="w-8/12 space-y-4">
+<div class="mt-6 p-6 rounded-lg">
+    <form action="<?= base_url(); ?>product/save" method="post" class="w-8/12 mx-auto space-y-4 border p-8 rounded-lg shadow-2xl">
         <?= csrf_field() ?>
         <div class="flex flex-col space-y-1.5">
             <label for="productName">Product Name</label>
@@ -49,7 +49,7 @@
             <?php endif ?>
         </div>
         <div class="flex items-center space-x-2">
-            <input type="checkbox" name="isActive" id="isActive" checked>
+            <input type="checkbox" name="isActive" id="isActive" class="rounded" checked>
             <label for="isActive">
                 Publish this product?
             </label>
