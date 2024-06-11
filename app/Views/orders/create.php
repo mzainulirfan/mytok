@@ -8,7 +8,7 @@
             <table class="w-full text-sm text-left text-gray-500 ">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
-                        <th scope="col" class="px-6 py-3 w-8/12">
+                        <th scope="col" class="px-6 py-3 w-full">
                             Product Name
                         </th>
                         <th scope="col" class="px-6 py-3">
@@ -17,7 +17,7 @@
                         <th scope="col" class="px-6 py-3 w-1">
                             Qty
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="px-6 py-3 text-end">
                             Action
                         </th>
                     </tr>
@@ -26,14 +26,14 @@
                     <?php foreach ($products as $product) : ?>
                         <form action="<?= base_url(); ?>orders/addToCart" method="post">
                             <tr class="bg-white border-b hover:bg-gray-50">
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap w-full truncate">
                                     <a href="" class="hover:underline hover:text-blue-500 transition duration-200 truncate"><?= esc($product['product_name']); ?></a>
                                 </th>
                                 <td class="px-6 py-4">
                                     <span class="font-semibold text-gray-700"><?= esc($product['product_price']); ?></span>
                                 </td>
                                 <td class="px-6 py-4 w-3">
-                                    <input type="number" name="productQty" id="productQty" value="1" class="w-[4rem] p-2 rounded-lg" min="1" max="<?= esc($product['product_stock']); ?>">
+                                    <input type="number" name="productQty" id="productQty" value="<?= esc($product['product_stock'] == 0) ? 0 : 1; ?>" class="w-[4rem] p-2 rounded-lg" min="1" max="<?= esc($product['product_stock']); ?>" <?= esc($product['product_stock'] == 0) ? 'disabled' : ''; ?>>
                                 </td>
                                 <td class="px-6 py-4">
                                     <input type="hidden" name="productId" value="<?= esc($product['product_id']); ?>">
@@ -93,7 +93,7 @@
                             <th scope="col" class="px-6 py-3">
                                 Price
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 text-end">
                                 Qty
                             </th>
                         </tr>
