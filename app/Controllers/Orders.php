@@ -22,47 +22,98 @@ class Orders extends BaseController
         return view('orders/index', $data);
     }
 
+    // public function addToCart()
+    // {
+    //     // dd($this->request->getPost());
+    //     // Ambil data dari POST request
+    //     $productName = $this->request->getPost('productName');
+    //     $productPrice = $this->request->getPost('productPrice');
+    //     $productQty = $this->request->getPost('productQty');
+
+    //     // Inisialisasi session jika belum ada
+    //     if (!session()->has('cart')) {
+    //         session()->set('cart', []);
+    //     }
+
+    //     // Ambil keranjang belanja dari session
+    //     $cart = session()->get('cart');
+    //     $productFound = false;
+
+    //     // Cek apakah produk sudah ada di keranjang
+    //     foreach ($cart as &$item) {
+    //         if ($item['product_name'] === $productName) {
+    //             // Pastikan kunci 'quantity' ada
+    //             if (!isset($item['quantity'])) {
+    //                 $item['quantity'] = 0;
+    //             }
+    //             $item['quantity'] += 1;
+    //             $productFound = true;
+    //             break;
+    //         }
+    //     }
+
+    //     // Jika produk tidak ditemukan di keranjang, tambahkan sebagai item baru
+    //     if (!$productFound) {
+    //         $cart[] = [
+    //             'product_name' => $productName,
+    //             'product_price' => $productPrice,
+    //             'quantity' => 1
+    //         ];
+    //     }
+
+    //     // Simpan keranjang belanja ke session
+    //     session()->set('cart', $cart);
+
+    //     // Redirect atau lakukan operasi lainnya
+    //     return redirect()->back()->with('success', 'Product added to cart successfully.');
+    // }
     public function addToCart()
     {
-        // Ambil data dari POST request
+        // Get data from POST request
         $productName = $this->request->getPost('productName');
         $productPrice = $this->request->getPost('productPrice');
+        $productQty = $this->request->getPost('productQty');
 
-        // Inisialisasi session jika belum ada
+        // Validate inputs
+        if (!$productName || !$productPrice || !$productQty) {
+            return redirect()->back()->with('error', 'Invalid product data.');
+        }
+
+        // Initialize session if not already
         if (!session()->has('cart')) {
             session()->set('cart', []);
         }
 
-        // Ambil keranjang belanja dari session
+        // Get cart from session
         $cart = session()->get('cart');
         $productFound = false;
 
-        // Cek apakah produk sudah ada di keranjang
+        // Check if product already in cart
         foreach ($cart as &$item) {
             if ($item['product_name'] === $productName) {
-                // Pastikan kunci 'quantity' ada
+                // Ensure 'quantity' key exists and update quantity
                 if (!isset($item['quantity'])) {
                     $item['quantity'] = 0;
                 }
-                $item['quantity'] += 1;
+                $item['quantity'] += $productQty;
                 $productFound = true;
                 break;
             }
         }
 
-        // Jika produk tidak ditemukan di keranjang, tambahkan sebagai item baru
+        // If product not found in cart, add as new item
         if (!$productFound) {
             $cart[] = [
                 'product_name' => $productName,
                 'product_price' => $productPrice,
-                'quantity' => 1
+                'quantity' => $productQty
             ];
         }
 
-        // Simpan keranjang belanja ke session
+        // Save cart to session
         session()->set('cart', $cart);
 
-        // Redirect atau lakukan operasi lainnya
+        // Redirect or perform other operations
         return redirect()->back()->with('success', 'Product added to cart successfully.');
     }
 
@@ -87,7 +138,7 @@ class Orders extends BaseController
             'products' => $this->productModel->findAll(),
             'cartItems' => $cartItems, // Kirim data keranjang belanja ke tampilan
             'totalQuantity' => $totalQuantity,
-            // 'totalPrice' => $totalPrice // 
+            // 'totalPrice' => $totalPrice //
         ];
         return view('orders/create', $data);
     }
