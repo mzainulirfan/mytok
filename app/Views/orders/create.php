@@ -8,10 +8,10 @@
             <table class="w-full text-sm text-left text-gray-500 ">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
-                        <th scope="col" class="px-6 py-3 w-full">
+                        <th scope="col" class="px-6 py-3 w-auto">
                             Product Name
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="px-6 py-3 w-auto">
                             Price
                         </th>
                         <th scope="col" class="px-6 py-3 w-1">
@@ -29,8 +29,8 @@
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap w-full truncate">
                                     <a href="<?= base_url(); ?>product/<?= esc($product['product_slug']); ?>/detail" class="hover:underline hover:text-blue-500 transition duration-200 truncate"><?= esc($product['product_name']); ?></a>
                                 </th>
-                                <td class="px-6 py-4">
-                                    <span class="font-semibold text-gray-700"><?= esc($product['product_price']); ?></span>
+                                <td class="px-6 py-4 w-auto">
+                                    <span class="font-semibold text-gray-700 text-nowrap"><?= formatRupiah(esc($product['product_price'])); ?></span>
                                 </td>
                                 <td class="px-6 py-4 w-3">
                                     <input type="number" name="productQty" id="productQty" value="<?= esc($product['product_stock'] == 0) ? 0 : 1; ?>" class="w-[4rem] p-2 rounded-lg" min="1" max="<?= esc($product['product_stock']); ?>" <?= esc($product['product_stock'] == 0) ? 'disabled' : ''; ?>>
@@ -111,7 +111,7 @@
                                     <a href="<?= base_url(); ?>product/<?= esc($product['product_slug']); ?>/detail" class="hover:underline hover:text-blue-500 transition duration-200"><?= esc($item['product_name']); ?></a>
                                 </th>
                                 <td class="px-6 py-4">
-                                    <span class="font-semibold text-gray-700"><?= esc($item['product_price']); ?></span>
+                                    <span class="font-semibold text-gray-700"><?= formatRupiah(esc($item['product_price'])); ?></span>
                                 </td>
                                 <td class="px-6 py-4 flex items-center space-x-2 justify-between">
                                     <span><?= esc($item['quantity']); ?></span>
@@ -130,11 +130,17 @@
                     <tfoot>
                         <tr class="font-semibold text-gray-900">
                             <th scope="row" class="px-6 py-3 text-base">&nbsp;</th>
-                            <td class="px-6 py-3"><?= view_cell('\App\Cells\CartTotalHelper::totalPrice') ?></td>
-                            <td class="px-6 py-3"><?= esc(esc($totalQuantity)); ?></td>
+                            <td class="px-6 py-3"><?= formatRupiah($totalPrice) ?></td>
+                            <td class="px-6 py-3"><?= esc($totalQuantity); ?></td>
                         </tr>
                     </tfoot>
                 </table>
+            </div>
+            <div class="text-end mt-12">
+                <form action="<?= base_url(); ?>orders/checkout" method="post">
+                    <input type="hidden" name="totalAmount" value="<?= $totalPrice ?>">
+                    <button type="submit" class="border px-4 py-2 bg-blue-500 rounded-lg text-white capitalize">checkout now!</button>
+                </form>
             </div>
         <?php endif; ?>
     </div>

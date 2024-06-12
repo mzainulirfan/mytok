@@ -28,3 +28,4 @@ $routes->get('/orders/create', 'Orders::createOrder');
 $routes->post('/orders/addToCart', 'Orders::addToCart');
 $routes->post('/orders/clearCart', 'Orders::clearCart');
 $routes->post('/orders/removeFromCart', 'Orders::removeFromCart');
+$routes->post('/orders/checkout', 'Orders::checkout');
