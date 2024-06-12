@@ -37,6 +37,19 @@
                 $('#categoryDescription').val(categoryDescription);
             });
         });
+        $(document).ready(function() {
+            // Delegation to handle dynamically added elements
+            $(document).on('click', '#btnUpdateStock', function() {
+                // Get data from button
+                var productId = $(this).data('productid');
+                var productName = $(this).data('productname');
+                // Set data to modal fields
+                // $('#productName').val(productName);
+                $('#productId').val(productId);
+                $('#productName').val(productName);
+                $('#productNameLabel').text(productName);
+            });
+        });
     </script>
 </body>
 

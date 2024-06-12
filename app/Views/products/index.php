@@ -50,19 +50,26 @@
                             </td>
                             <td class="px-6 py-4">
                                 <?php if ($product['product_is_active']) : ?>
-                                    <span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                                    <span class="inline-flex items-center bg-green-100 capitalize text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
                                         <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
                                         publish
                                     </span>
                                 <?php else : ?>
-                                    <span class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                    <span class="inline-flex items-center bg-red-100 capitalize text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
                                         <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
                                         pending
                                     </span>
                                 <?php endif ?>
                             </td>
                             <td class="px-6 py-4">
-                                <?= esc($product['product_stock']); ?>
+                                <div class="inline-flex items-center">
+                                    <?= esc($product['product_stock']); ?>
+                                    <button id="btnUpdateStock" class="w-4 h-4 ml-2 inline-block" data-modal-target="updatestock-modal" data-modal-toggle="updatestock-modal" data-productid="<?= esc($product['product_id']); ?>" data-productname="<?= esc($product['product_name']); ?>" type="button">
+                                        <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M11 3.99998H6.8C5.11984 3.99998 4.27976 3.99998 3.63803 4.32696C3.07354 4.61458 2.6146 5.07353 2.32698 5.63801C2 6.27975 2 7.11983 2 8.79998V17.2C2 18.8801 2 19.7202 2.32698 20.362C2.6146 20.9264 3.07354 21.3854 3.63803 21.673C4.27976 22 5.11984 22 6.8 22H15.2C16.8802 22 17.7202 22 18.362 21.673C18.9265 21.3854 19.3854 20.9264 19.673 20.362C20 19.7202 20 18.8801 20 17.2V13M7.99997 16H9.67452C10.1637 16 10.4083 16 10.6385 15.9447C10.8425 15.8957 11.0376 15.8149 11.2166 15.7053C11.4184 15.5816 11.5914 15.4086 11.9373 15.0627L21.5 5.49998C22.3284 4.67156 22.3284 3.32841 21.5 2.49998C20.6716 1.67156 19.3284 1.67155 18.5 2.49998L8.93723 12.0627C8.59133 12.4086 8.41838 12.5816 8.29469 12.7834C8.18504 12.9624 8.10423 13.1574 8.05523 13.3615C7.99997 13.5917 7.99997 13.8363 7.99997 14.3255V16Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </button>
+                                </div>
                             </td>
                             <td class="px-6 py-4 flex space-x-2 items-center">
                                 <a href="<?= base_url(); ?>product/<?= esc($product['product_slug']); ?>/edit" class="font-medium text-blue-600 hover:underline">Edit</a>
@@ -109,5 +116,36 @@
             <a href="<?= base_url(); ?>product/create" class="border px-4 py-2 rounded-lg capitalize">Create product</a>
         </div>
     <?php endif ?>
+</div>
+
+<!-- create modal -->
+<div id="updatestock-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow">
+            <!-- Modal header -->
+            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+                <h3 class="text-lg font-semibold text-gray-900 capitalize">
+                    update stok <span id="productNameLabel"></span>
+                </h3>
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="updatestock-modal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <div class="p-6">
+                <form action="product/updatestock" method="post">
+                    <?= csrf_field() ?>
+                    <input type="hidden" name="productId" id="productId">
+                    <input type="hidden" name="productName" id="productName">
+                    <input type="number" name="productStock" id="productStock" value="1" id="productStock" class="p-2 border rounded-lg">
+                    <button class="p-2 border rounded-lg" type="submit">update</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 <?= $this->endSection(); ?>

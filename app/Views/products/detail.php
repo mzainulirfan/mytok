@@ -14,7 +14,19 @@
                 <h4 class="mt-6">Description</h4>
                 <p><?= esc($product['product_desc']); ?></p>
                 <p class="mb-6">created at <?= esc($product['created_at']); ?></p>
-                <a href="<?= base_url(); ?>product/<?= esc($product['product_slug']); ?>/edit" class="mt-4 border px-4 py-2 rounded-lg capitalize bg-gray-500 text-white hover:bg-gray-200 hover:text-slate-900 transition duration-200 w-max">add to cart</a>
+                <form action="<?= base_url(); ?>orders/addToCart" method="post">
+                    <input type="hidden" name="productId" value="<?= esc($product['product_id']); ?>">
+                    <input type="hidden" name="productName" value="<?= esc($product['product_name']); ?>">
+                    <input type="hidden" name="productPrice" value="<?= esc($product['product_price']); ?>">
+                    <input type="hidden" name="productQty" value="<?= esc($product['product_stock'] == 0) ? 0 : 1; ?>">
+                    <!-- <input type="number" name="productQty" id="productQty" value="<?= esc($product['product_stock'] == 0) ? 0 : 1; ?>" class="w-[4rem] p-2 rounded-lg" min="1" max="<?= esc($product['product_stock']); ?>" <?= esc($product['product_stock'] == 0) ? 'disabled' : ''; ?>> -->
+                    <?php if ($product['product_stock'] == 0) : ?>
+                        <button type="button" class="mt-4 border px-4 py-2 rounded-lg capitalize bg-gray-500 text-white hover:bg-gray-200 hover:text-slate-900 transition duration-200 w-max" disabled>add to cart</button>
+                    <?php else : ?>
+                        <button type="submit" class="mt-4 border px-4 py-2 rounded-lg capitalize bg-gray-500 text-white hover:bg-gray-200 hover:text-slate-900 transition duration-200 w-max">add to cart</button>
+
+                    <?php endif; ?>
+                </form>
             </div>
         </div>
 

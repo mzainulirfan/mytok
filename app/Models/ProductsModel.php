@@ -63,6 +63,13 @@ class ProductsModel extends Model
             ->get()
             ->getResultArray();
     }
+    public function getAllProductsPublish()
+    {
+        return $this->db->table($this->table)
+            ->where('product_is_active', true)
+            ->get()
+            ->getResultArray();
+    }
     public function getDetailProduct($slugProduct)
     {
         return $this->db->table($this->table)

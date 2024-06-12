@@ -135,7 +135,7 @@ class Orders extends BaseController
 
         $data = [
             'title' => 'create order',
-            'products' => $this->productModel->findAll(),
+            'products' => $this->productModel->getAllProductsPublish(),
             'cartItems' => $cartItems, // Kirim data keranjang belanja ke tampilan
             'totalQuantity' => $totalQuantity,
             // 'totalPrice' => $totalPrice //

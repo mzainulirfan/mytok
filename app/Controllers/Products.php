@@ -125,6 +125,19 @@ class Products extends BaseController
         session()->setFlashdata('success', 'product has been updated successfully');
         return redirect()->to(base_url() . 'product');
     }
+    public function updateProductStock()
+    {
+        $productId =  $this->request->getVar('productId');
+        $productName =  $this->request->getVar('productName');
+        $data = [
+            'product_id' =>  $productId,
+            'product_stock' =>  $this->request->getVar('productStock'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+        $this->productModel->update($productId, $data);
+        session()->setFlashdata('success', 'stock product ' . $productName . ' has been updated successfully');
+        return redirect()->to(base_url() . 'product');
+    }
     public function deleteProduct($productId)
     {
         $this->productModel->delete($productId);

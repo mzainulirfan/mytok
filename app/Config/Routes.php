@@ -12,6 +12,7 @@ $routes->get('/product/(:segment)/edit', 'Products::editProduct/$1/edit');
 $routes->get('/product/(:segment)/detail', 'Products::detailProduct/$1/detail');
 $routes->post('/product/save', 'Products::saveProduct');
 $routes->post('/product/update/(:num)', 'Products::updateProduct/$1');
+$routes->post('/product/updatestock', 'Products::updateProductStock');
 $routes->delete('/product/(:num)', 'Products::deleteProduct/$1');
 
 $routes->get('/categories', 'Categories::index');

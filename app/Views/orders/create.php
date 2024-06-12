@@ -27,7 +27,7 @@
                         <form action="<?= base_url(); ?>orders/addToCart" method="post">
                             <tr class="bg-white border-b hover:bg-gray-50">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap w-full truncate">
-                                    <a href="" class="hover:underline hover:text-blue-500 transition duration-200 truncate"><?= esc($product['product_name']); ?></a>
+                                    <a href="<?= base_url(); ?>product/<?= esc($product['product_slug']); ?>/detail" class="hover:underline hover:text-blue-500 transition duration-200 truncate"><?= esc($product['product_name']); ?></a>
                                 </th>
                                 <td class="px-6 py-4">
                                     <span class="font-semibold text-gray-700"><?= esc($product['product_price']); ?></span>
@@ -108,12 +108,12 @@
                             ?>
                             <tr class="bg-white border-b hover:bg-gray-50">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                    <a href="" class="hover:underline hover:text-blue-500 transition duration-200"><?= esc($item['product_name']); ?></a>
+                                    <a href="<?= base_url(); ?>product/<?= esc($product['product_slug']); ?>/detail" class="hover:underline hover:text-blue-500 transition duration-200"><?= esc($item['product_name']); ?></a>
                                 </th>
                                 <td class="px-6 py-4">
                                     <span class="font-semibold text-gray-700"><?= esc($item['product_price']); ?></span>
                                 </td>
-                                <td class="px-6 py-4 flex items-center space-x-2">
+                                <td class="px-6 py-4 flex items-center space-x-2 justify-between">
                                     <span><?= esc($item['quantity']); ?></span>
                                     <form action="<?= base_url(); ?>orders/removeFromCart" method="post">
                                         <input type="hidden" name="productName" value="<?= esc($item['product_name']); ?>">
