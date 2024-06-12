@@ -17,6 +17,9 @@
                         status
                     </th>
                     <th scope="col" class="px-6 py-3">
+                        date
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                         Action
                     </th>
                 </tr>
@@ -42,6 +45,9 @@
                                     <?= esc($order['order_status']); ?>
                                 </span>
                             <?php endif; ?>
+                        </td>
+                        <td class="px-6 py-4">
+                            <?= esc($order['created_at']); ?>
                         </td>
                         <td class="px-6 py-4 flex space-x-2 items-center">
                             <a href="" class="font-medium text-blue-600 hover:underline capitalize">detail</a>

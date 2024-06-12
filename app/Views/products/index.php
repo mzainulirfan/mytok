@@ -141,7 +141,7 @@
                     <?= csrf_field() ?>
                     <input type="hidden" name="productId" id="productId">
                     <input type="hidden" name="productName" id="productName">
-                    <input type="number" name="productStock" id="productStock" value="1" id="productStock" class="p-2 border rounded-lg">
+                    <input type="number" name="productStock" id="productStock" value="1" min="0" id="productStock" class="p-2 border rounded-lg">
                     <button class="p-2 border rounded-lg" type="submit">update</button>
                 </form>
             </div>

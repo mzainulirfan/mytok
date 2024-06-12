@@ -30,7 +30,7 @@
                                     <a href="<?= base_url(); ?>product/<?= esc($product['product_slug']); ?>/detail" class="hover:underline hover:text-blue-500 transition duration-200 truncate"><?= esc($product['product_name']); ?></a>
                                 </th>
                                 <td class="px-6 py-4 w-auto">
-                                    <span class="font-semibold text-gray-700 text-nowrap"><?= formatRupiah(esc($product['product_price'])); ?></span>
+                                    <span class="font-semibold text-gray-700 hitespace-nowrap"><?= formatRupiah(esc($product['product_price'])); ?></span>
                                 </td>
                                 <td class="px-6 py-4 w-3">
                                     <input type="number" name="productQty" id="productQty" value="<?= esc($product['product_stock'] == 0) ? 0 : 1; ?>" class="w-[4rem] p-2 rounded-lg" min="1" max="<?= esc($product['product_stock']); ?>" <?= esc($product['product_stock'] == 0) ? 'disabled' : ''; ?>>
