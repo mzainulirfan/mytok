@@ -139,7 +139,8 @@ class Orders extends BaseController
     {
         $data = [
             'order_total_amount' =>  $this->request->getVar('totalAmount'),
-            // 'order_status' => ''
+            'order_user_id' => 1,
+            // 'order_payment_status' => ''
             'created_at' => date('Y-m-d H:i:s')
         ];
         $this->orderModel->save($data);

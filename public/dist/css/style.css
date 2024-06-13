@@ -725,16 +725,16 @@ video {
   margin-inline-start: auto;
 }
 
+.mt-12{
+  margin-top: 3rem;
+}
+
 .mt-4{
   margin-top: 1rem;
 }
 
 .mt-6{
   margin-top: 1.5rem;
-}
-
-.mt-12{
-  margin-top: 3rem;
 }
 
 .block{
@@ -873,6 +873,10 @@ video {
   width: 4rem;
 }
 
+.w-auto{
+  width: auto;
+}
+
 .w-full{
   width: 100%;
 }
@@ -880,10 +884,6 @@ video {
 .w-max{
   width: -moz-max-content;
   width: max-content;
-}
-
-.w-auto{
-  width: auto;
 }
 
 .max-w-md{
@@ -1026,10 +1026,6 @@ video {
 
 .whitespace-nowrap{
   white-space: nowrap;
-}
-
-.text-nowrap{
-  text-wrap: nowrap;
 }
 
 .rounded{

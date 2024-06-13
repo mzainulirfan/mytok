@@ -15,14 +15,24 @@ class CreateOrdersTable extends Migration
                 'unsigned' => true,
                 'auto_increment' => true
             ],
+            'order_user_id' => [
+                'type' => 'INT',
+                'constraint' => 5,
+                'unsigned' => true
+            ],
             'order_total_amount' => [
                 'type' => 'INT',
                 'constraint' => 255,
                 'null' => true
             ],
+            'order_payment_status' => [
+                'type' => 'ENUM',
+                'constraint' => ['paid', 'unpaid'],
+                'default' => 'unpaid',
+            ],
             'order_status' => [
                 'type' => 'ENUM',
-                'constraint' => ['Pending', 'Done'],
+                'constraint' => ['pending', 'on process', 'success', 'cancel'],
                 'default' => 'Pending',
             ],
             'created_at' => [
