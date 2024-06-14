@@ -5,16 +5,19 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\ProductsModel;
 use App\Models\OrdersModel;
+use App\Models\ItemOrderModel;
 
 class Orders extends BaseController
 {
     protected $productModel;
     protected $orderModel;
+    protected $itemOrderModel;
 
     public function __construct()
     {
         $this->productModel = new ProductsModel();
         $this->orderModel = new OrdersModel();
+        $this->itemOrderModel = new ItemOrderModel();
     }
 
     public function index()
@@ -29,6 +32,7 @@ class Orders extends BaseController
     public function addToCart()
     {
         // Get data from POST request
+        $productId = $this->request->getPost('productId');
         $productName = $this->request->getPost('productName');
         $productPrice = $this->request->getPost('productPrice');
         $productQty = $this->request->getPost('productQty');
@@ -63,6 +67,7 @@ class Orders extends BaseController
         // If product not found in cart, add as new item
         if (!$productFound) {
             $cart[] = [
+                'product_id' => $productId,
                 'product_name' => $productName,
                 'product_price' => $productPrice,
                 'quantity' => $productQty
@@ -137,6 +142,9 @@ class Orders extends BaseController
     }
     public function checkout()
     {
+        // Ambil data keranjang belanja dari session
+        $cartItems = session()->get('cart') ?? [];
+
         $data = [
             'order_total_amount' =>  $this->request->getVar('totalAmount'),
             'order_user_id' => 1,
@@ -144,6 +152,19 @@ class Orders extends BaseController
             'created_at' => date('Y-m-d H:i:s')
         ];
         $this->orderModel->save($data);
+        $orderId = $this->orderModel->getInsertID();
+
+        // Simpan data ke tabel order_items
+        foreach ($cartItems as $item) {
+            $productId =  $this->request->getPost('productId');
+            $orderItemData = [
+                'item_order_order_id' => $orderId,
+                'item_order_product_id' => $productId,
+                'item_order_qty' => $item['quantity']
+            ];
+            $this->itemOrderModel->save($orderItemData);
+        }
+
         session()->remove('cart');
         return redirect()->to('orders');
     }

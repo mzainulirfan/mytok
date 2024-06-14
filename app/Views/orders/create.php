@@ -138,6 +138,7 @@
             </div>
             <div class="text-end mt-12">
                 <form action="<?= base_url(); ?>orders/checkout" method="post">
+                    <input type="hidden" name="productId" value="<?= $item['product_id']; ?>">
                     <input type="hidden" name="totalAmount" value="<?= $totalPrice ?>">
                     <button type="submit" class="border px-4 py-2 bg-blue-500 rounded-lg text-white capitalize">checkout now!</button>
                 </form>
