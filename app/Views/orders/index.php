@@ -29,7 +29,7 @@
                     <?php foreach ($orders as $order) : ?>
                         <tr class="bg-white border-b hover:bg-gray-50">
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                <a href="" class="hover:underline hover:text-blue-500 transition duration-200">#order<?= esc($order['order_id']); ?></a>
+                                <a href="<?= base_url(); ?>orders/<?= esc($order['order_id']); ?>/detail" class="hover:underline hover:text-blue-500 transition duration-200">#order<?= esc($order['order_id']); ?></a>
                             </th>
                             <td class="px-6 py-4">
                                 <span class="font-semibold text-gray-700"><?= formatRupiah(esc($order['order_total_amount'])); ?></span>
@@ -51,7 +51,7 @@
                                 <?= esc($order['created_at']); ?>
                             </td>
                             <td class="px-6 py-4 flex space-x-2 items-center">
-                                <a href="" class="font-medium text-blue-600 hover:underline capitalize">detail</a>
+                                <a href="<?= base_url(); ?>orders/<?= esc($order['order_id']); ?>/detail" class="font-medium text-blue-600 hover:underline capitalize">detail</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

@@ -156,10 +156,9 @@ class Orders extends BaseController
 
         // Simpan data ke tabel order_items
         foreach ($cartItems as $item) {
-            $productId =  $this->request->getPost('productId');
             $orderItemData = [
                 'item_order_order_id' => $orderId,
-                'item_order_product_id' => $productId,
+                'item_order_product_id' => $item['product_id'],
                 'item_order_qty' => $item['quantity']
             ];
             $this->itemOrderModel->save($orderItemData);
@@ -167,5 +166,19 @@ class Orders extends BaseController
 
         session()->remove('cart');
         return redirect()->to('orders');
+    }
+    public function orderDetail($orderId)
+    {
+        // dd($orderId);
+        $order = $this->orderModel->find($orderId);
+        $orderItems = $this->itemOrderModel->getRelatedProductWithOrder($orderId);
+        // dd($orderItems);
+        // dd($getOrder);
+        $data = [
+            'title' => 'order detail #order' . $order['order_id'],
+            'order' => $order,
+            'orderItems' => $orderItems
+        ];
+        return view('orders/detail', $data);
     }
 }
