@@ -30,3 +30,6 @@ $routes->post('/orders/clearCart', 'Orders::clearCart');
 $routes->post('/orders/removeFromCart', 'Orders::removeFromCart');
 $routes->post('/orders/checkout', 'Orders::checkout');
 $routes->get('/orders/(:segment)/detail', 'Orders::orderDetail/$1/detail');
+
+$routes->get('/users', 'Users::index');
+$routes->post('/users/save', 'Users::save');
