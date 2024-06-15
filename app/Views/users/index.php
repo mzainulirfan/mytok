@@ -10,7 +10,7 @@
     <?php if (!empty($users)) : ?>
         <button type="button" data-modal-target="create-modal" data-modal-toggle="create-modal" class="border px-4 py-2 rounded-lg capitalize hover:bg-gray-200 hover:text-slate-900 transition duration-200">new user</button>
         <?php if (session()->getFlashdata('errors')) : ?>
-            <div class="border border-red-300 bg-red-200/25 text-green-700 p-4 rounded-lg my-4" role="alert">
+            <div class="border border-red-300 bg-red-200/25 text-red-700 p-4 rounded-lg my-4 w-max" role="alert">
                 <?= session()->getFlashdata('errors'); ?>
             </div>
         <?php endif; ?>
@@ -56,9 +56,14 @@
             </table>
         </div>
     <?php else : ?>
-        <div class="text-center">
+        <div class=" flex justify-center flex-col items-center">
             <p class="mb-4">No users found</p>
             <button type="button" data-modal-target="create-modal" data-modal-toggle="create-modal" class="border px-4 py-2 rounded-lg capitalize hover:bg-gray-200 hover:text-slate-900 transition duration-200">new user</button>
+            <?php if (session()->getFlashdata('errors')) : ?>
+                <div class="border border-red-300 bg-red-200/25 text-red-700 p-4 rounded-lg my-4" role="alert">
+                    <?= session()->getFlashdata('errors'); ?>
+                </div>
+            <?php endif; ?>
         </div>
     <?php endif; ?>
 </div>

@@ -34,7 +34,7 @@ class Users extends BaseController
 
         $valiationRules = [
             'fullnameUser' => 'required|is_unique[users.fullname_user]',
-            'emailUser' => 'required|valid_email',
+            'emailUser' => 'required|valid_email|is_unique[users.email_user]',
             'phoneUser' => 'required|numeric'
         ];
         if (!$this->validate($valiationRules)) {

@@ -45,6 +45,7 @@ class CreateOrdersTable extends Migration
             ]
         ]);
         $this->forge->addKey('order_id', true);
+        $this->forge->addForeignKey('order_user_id', 'users', 'user_id', 'restrict', 'cascade');
         $this->forge->createTable('orders', true);
     }
 
