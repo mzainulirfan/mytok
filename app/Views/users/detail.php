@@ -1,18 +1,22 @@
 <?= $this->extend('layout'); ?>
 <?= $this->section('content'); ?>
-<h1 class="text-2xl font-semibold capitalize">orders</h1>
-<div class="mt-6 border p-4 py-6 rounded-lg">
-    <?php if (!empty($orders)) : ?>
-        <a href="<?= base_url(); ?>orders/create" class="border px-4 py-2 rounded-lg capitalize hover:bg-gray-200 hover:text-slate-900 transition duration-200">Create order</a>
+<h1 class="text-2xl font-semibold capitalize">users : <?= $user['fullname_user']; ?></h1>
+<div class="flex gap-4 mt-6">
+    <div class="border p-6 rounded-lg w-4/12">
+        <div class="w-20 h-20 bg-gray-500 rounded-full">
+            <img src="" alt="">
+        </div>
+        <p>fullname: <?= esc($user['fullname_user']); ?></p>
+        <p>email: <?= esc($user['email_user']); ?></p>
+        <p>phone: <?= esc($user['phone_user']); ?></p>
+    </div>
+    <div class="border p-6 rounded-lg flex-1">
         <div class="relative overflow-x-auto border rounded-lg my-4">
             <table class="w-full text-sm text-left text-gray-500 ">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
                         <th scope="col" class="px-6 py-3">
                             Id Order
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Name
                         </th>
                         <th scope="col" class="px-6 py-3">
                             Amount
@@ -34,11 +38,6 @@
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                 <a href="<?= base_url(); ?>orders/<?= esc($order['order_id']); ?>/detail" class="hover:underline hover:text-blue-500 transition duration-200">#order<?= esc($order['order_id']); ?></a>
                             </th>
-                            <td class="px-6 py-4">
-                                <a href="<?= base_url(); ?>users/<?= esc($order['username_user']); ?>/detail/">
-                                    <span class="font-semibold text-gray-700"><?= esc($order['fullname_user']); ?></span>
-                                </a>
-                            </td>
                             <td class="px-6 py-4">
                                 <span class="font-semibold text-gray-700"><?= formatRupiah(esc($order['order_total_amount'])); ?></span>
                             </td>
@@ -66,11 +65,6 @@
                 </tbody>
             </table>
         </div>
-    <?php else : ?>
-        <div class="flex flex-col space-y-2 items-center">
-            <p>no order found</p>
-            <a href="<?= base_url(); ?>orders/create" class="border px-4 py-2 w-max rounded-lg capitalize hover:bg-gray-200 hover:text-slate-900 transition duration-200">Create order</a>
-        </div>
-    <?php endif; ?>
+    </div>
 </div>
 <?= $this->endSection(); ?>

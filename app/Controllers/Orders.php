@@ -22,9 +22,10 @@ class Orders extends BaseController
 
     public function index()
     {
+        $orders = $this->orderModel->getAllOrders();
         $data = [
-            'title' => 'order',
-            'orders' => $this->orderModel->findAll()
+            'title' => 'orders',
+            'orders' => $orders
         ];
         return view('orders/index', $data);
     }
@@ -169,11 +170,8 @@ class Orders extends BaseController
     }
     public function orderDetail($orderId)
     {
-        // dd($orderId);
         $order = $this->orderModel->find($orderId);
         $orderItems = $this->itemOrderModel->getRelatedProductWithOrder($orderId);
-        // dd($orderItems);
-        // dd($getOrder);
         $data = [
             'title' => 'order detail #order' . $order['order_id'],
             'order' => $order,

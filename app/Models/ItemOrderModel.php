@@ -47,16 +47,7 @@ class ItemOrderModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-    // public function getRelatedProductWithOrder($orderId)
-    // {
-    //     return $this->db->table($this->table)
-    //         ->select('item_orders.*, products.*')
-    //         ->join('products', 'products.product_id=item_orders.item_order_order_id')
-    //         ->join('orders', 'orders.order_id=item_orders.item_order_order_id')
-    //         ->where('item_order_order_id', $orderId)
-    //         ->get()
-    //         ->getResultArray();
-    // }
+
     public function getRelatedProductWithOrder($orderId)
     {
         return $this->db->table('item_orders')
@@ -67,5 +58,4 @@ class ItemOrderModel extends Model
             ->get()
             ->getResultArray();
     }
-
 }

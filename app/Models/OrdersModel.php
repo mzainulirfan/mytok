@@ -50,4 +50,13 @@ class OrdersModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function getAllOrders()
+    {
+        return $this->db->table($this->table)
+            ->select('orders.*,users.*')
+            ->join('users', 'users.user_id=orders.order_user_id')
+            ->get()
+            ->getResultArray();
+    }
 }

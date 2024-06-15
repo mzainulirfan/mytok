@@ -7,12 +7,18 @@
     </div>
 <?php endif; ?>
 
+
 <div class="mt-6 border p-4 py-6 rounded-lg">
     <?php if (!empty($categories)) : ?>
         <a href="<?= base_url(); ?>product" class="border px-4 py-2 rounded-lg capitalize hover:bg-gray-200 hover:text-slate-900 transition duration-200">products</a>
         <button data-modal-target="create-modal" data-modal-toggle="create-modal" class="border px-4 py-2 rounded-lg capitalize hover:bg-gray-200 hover:text-slate-900 transition duration-200" type="button">
             Create Category
         </button>
+        <?php if (session()->getFlashdata('errors')) : ?>
+            <div class="border border-red-300 bg-red-200/25 text-green-700 p-4 rounded-lg my-4" role="alert">
+                <?= session()->getFlashdata('errors'); ?>
+            </div>
+        <?php endif; ?>
         <div class="relative overflow-x-auto border rounded-lg my-4">
             <table class="w-full text-sm text-left text-gray-500 ">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">

@@ -43,10 +43,12 @@
                 // Get data from button
                 var productId = $(this).data('productid');
                 var productName = $(this).data('productname');
+                var productQty = $(this).data('productqty');
                 // Set data to modal fields
                 // $('#productName').val(productName);
                 $('#productId').val(productId);
                 $('#productName').val(productName);
+                $('#productStock').val(productQty);
                 $('#productNameLabel').text(productName);
             });
         });

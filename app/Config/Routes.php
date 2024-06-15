@@ -33,3 +33,4 @@ $routes->get('/orders/(:segment)/detail', 'Orders::orderDetail/$1/detail');
 
 $routes->get('/users', 'Users::index');
 $routes->post('/users/save', 'Users::save');
+$routes->get('/users/(:segment)/detail', 'Users::detailUser/$1/detail');

@@ -55,6 +55,7 @@
             </label>
         </div>
         <button class="border p-2 rounded-lg outline-none form-control hover:bg-gray-200 hover:text-slate-900 transition duration-200" type="submit">Save</button>
+        <a href="<?= base_url(); ?>product" class="border p-2 rounded-lg outline-none form-control hover:bg-gray-200 hover:text-slate-900 transition duration-200">back to product</a>
     </form>
 </div>
 <?= $this->endSection(); ?>

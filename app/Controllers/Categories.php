@@ -40,6 +40,7 @@ class Categories extends BaseController
             'categoryDescription' => 'required|min_length[5]',
         ];
         if (!$this->validate($categoryValidationRules)) {
+            session()->setFlashdata('errors', 'errors');
             return redirect()->back()->withInput()->with('validation', $this->validator);
         }
         $data = [
