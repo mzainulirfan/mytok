@@ -5,32 +5,49 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Home::index');
-$routes->get('/product', 'Products::index');
-$routes->get('/product/create', 'Products::createProduct');
-$routes->get('/product/(:segment)/edit', 'Products::editProduct/$1/edit');
-$routes->get('/product/(:segment)/detail', 'Products::detailProduct/$1/detail');
-$routes->post('/product/save', 'Products::saveProduct');
-$routes->post('/product/update/(:num)', 'Products::updateProduct/$1');
-$routes->post('/product/updatestock', 'Products::updateProductStock');
-$routes->delete('/product/(:num)', 'Products::deleteProduct/$1');
 
-$routes->get('/categories', 'Categories::index');
-$routes->get('/categories/create', 'Categories::createCategories');
-$routes->get('/categories/(:segment)/detail', 'Categories::detailCategories/$1/detail');
-$routes->get('/categories/(:segment)/edit', 'Categories::editCategories/$1/edit');
-$routes->post('/categories/save', 'Categories::saveCategory');
-$routes->post('/categories/update/(:num)', 'Categories::udpateCategory/$1');
-$routes->delete('/categories/(:num)', 'Categories::deleteCategory/$1');
 
-$routes->get('/orders', 'Orders::index');
-$routes->get('/orders/create', 'Orders::createOrder');
-$routes->post('/orders/addToCart', 'Orders::addToCart');
-$routes->post('/orders/clearCart', 'Orders::clearCart');
-$routes->post('/orders/removeFromCart', 'Orders::removeFromCart');
-$routes->post('/orders/checkout', 'Orders::checkout');
-$routes->get('/orders/(:segment)/detail', 'Orders::orderDetail/$1/detail');
+$routes->get('/', 'Home::index', ['filter' => 'authenticate']);
+$routes->group('product', ['filter' => 'authenticate'], function ($routes) {
+    $routes->get('', 'Products::index');
+    $routes->get('create', 'Products::createProduct');
+    $routes->get('(:segment)/edit', 'Products::editProduct/$1/edit');
+    $routes->get('(:segment)/detail', 'Products::detailProduct/$1/detail');
+    $routes->post('save', 'Products::saveProduct');
+    $routes->post('update/(:num)', 'Products::updateProduct/$1');
+    $routes->post('updatestock', 'Products::updateProductStock');
+    $routes->delete('(:num)', 'Products::deleteProduct/$1');
+});
+$routes->group('categories', ['filter' => 'authenticate'], function ($routes) {
+    $routes->get('', 'Categories::index');
+    $routes->get('create', 'Categories::createCategories');
+    $routes->get('(:segment)/detail', 'Categories::detailCategories/$1/detail');
+    $routes->get('(:segment)/edit', 'Categories::editCategories/$1/edit');
+    $routes->post('save', 'Categories::saveCategory');
+    $routes->post('update/(:num)', 'Categories::updateCategory/$1');
+    $routes->delete('(:num)', 'Categories::deleteCategory/$1');
+});
 
-$routes->get('/users', 'Users::index');
-$routes->post('/users/save', 'Users::save');
-$routes->get('/users/(:segment)/detail', 'Users::detailUser/$1/detail');
+
+$routes->group('orders', ['filter' => 'authenticate'], function ($routes) {
+    $routes->get('', 'Orders::index');
+    $routes->get('create', 'Orders::createOrder');
+    $routes->post('addToCart', 'Orders::addToCart');
+    $routes->post('clearCart', 'Orders::clearCart');
+    $routes->post('removeFromCart', 'Orders::removeFromCart');
+    $routes->post('checkout', 'Orders::checkout');
+    $routes->get('(:segment)/detail', 'Orders::orderDetail/$1/detail');
+});
+$routes->group('users', ['filter' => 'authenticate'], function ($routes) {
+    $routes->get('', 'Users::index');
+    $routes->post('save', 'Users::save');
+    $routes->post('(:num)/update', 'Users::updateUser/$1/update');
+    $routes->get('(:segment)/detail', 'Users::detailUser/$1/detail');
+    $routes->delete('(:num)', 'Users::deleteUser/$1');
+});
+
+$routes->group('auth', ['filter' => 'redirectIfAuthenticated'], function ($routes) {
+    $routes->get('', 'Auth::index');
+    $routes->post('login', 'Auth::authProcess');
+});
+$routes->get('auth/logout', 'Auth::logout', ['filter' => 'authenticate']);

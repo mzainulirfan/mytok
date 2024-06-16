@@ -11,7 +11,7 @@
 <div class="mt-6 border p-4 py-6 rounded-lg">
     <?php if (!empty($categories)) : ?>
         <a href="<?= base_url(); ?>product" class="border px-4 py-2 rounded-lg capitalize hover:bg-gray-200 hover:text-slate-900 transition duration-200">products</a>
-        <button data-modal-target="create-modal" data-modal-toggle="create-modal" class="border px-4 py-2 rounded-lg capitalize hover:bg-gray-200 hover:text-slate-900 transition duration-200" type="button">
+        <button data-modal-target="create-modal" data-modal-toggle="create-modal" class="inline border px-4 py-2 rounded-lg capitalize hover:bg-gray-200 hover:text-slate-900 transition duration-200" type="button">
             Create Category
         </button>
         <?php if (session()->getFlashdata('errors')) : ?>
@@ -38,7 +38,7 @@
                                 <a href="<?= base_url(); ?>categories/<?= esc($category['category_slug']); ?>/detail"><?= esc($category['category_name']); ?></a>
                             </th>
                             <td class="px-6 py-4 text-center flex items-center space-x-2">
-                                <a id="btnEdit" data-modal-target="edit-modal" data-modal-toggle="edit-modal" data-categoryid="<?= esc($category['category_id']); ?>" data-categoryname="<?= esc($category['category_name']); ?>" data-categorydescription="<?= esc($category['category_description']); ?>" class="font-medium capitalize text-blue-600 hover:underline">ubah</a>
+                                <button type="button" id="btnEdit" data-modal-target="edit-modal" data-modal-toggle="edit-modal" data-categoryid="<?= esc($category['category_id']); ?>" data-categoryname="<?= esc($category['category_name']); ?>" data-categorydescription="<?= esc($category['category_description']); ?>" class="font-medium capitalize text-blue-600 hover:underline">ubah</button>
                                 <form action="<?= base_url(); ?>categories/<?= esc($category['category_id']); ?>" method="post">
                                     <?= csrf_field(); ?>
                                     <input type="hidden" name="_method" value="DELETE">

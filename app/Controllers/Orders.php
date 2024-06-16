@@ -4,18 +4,21 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\ProductsModel;
+use App\Models\UsersModel;
 use App\Models\OrdersModel;
 use App\Models\ItemOrderModel;
 
 class Orders extends BaseController
 {
     protected $productModel;
+    protected $userModel;
     protected $orderModel;
     protected $itemOrderModel;
 
     public function __construct()
     {
         $this->productModel = new ProductsModel();
+        $this->userModel = new UsersModel();
         $this->orderModel = new OrdersModel();
         $this->itemOrderModel = new ItemOrderModel();
     }
@@ -145,11 +148,14 @@ class Orders extends BaseController
     {
         // Ambil data keranjang belanja dari session
         $cartItems = session()->get('cart') ?? [];
+        $users = $this->userModel->findAll();
+        $userIds = array_column($users, 'user_id');
+        $randomUserId = $userIds[array_rand($userIds)];
 
         $data = [
             'order_total_amount' =>  $this->request->getVar('totalAmount'),
-            'order_user_id' => 1,
-            // 'order_payment_status' => ''
+            'order_user_id' => $randomUserId,
+            'order_payment_status' => 'unpaid',
             'created_at' => date('Y-m-d H:i:s')
         ];
         $this->orderModel->save($data);

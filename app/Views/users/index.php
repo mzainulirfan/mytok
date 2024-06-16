@@ -27,7 +27,7 @@
                         <th scope="col" class="px-6 py-3">
                             status
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="px-6 py-3 text-end">
                             Action
                         </th>
                     </tr>
@@ -47,8 +47,13 @@
                                     Pending
                                 </span>
                             </td>
-                            <td class="px-6 py-4 flex space-x-2 items-center">
+                            <td class="px-6 py-4 flex space-x-2 items-center  justify-end">
                                 <a href="<?= base_url(); ?>users/<?= esc($user['username_user']); ?>/detail" class="font-medium text-blue-600 hover:underline capitalize">detail</a>
+                                <form action="<?= base_url(); ?>users/<?= $user['user_id']; ?>" method="post">
+                                    <?= csrf_field(); ?>
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button type="submit" onclick="return confirm('Apakah yakin data <?= esc($user['fullname_user']); ?> mau dihapus?')" class="font-medium text-red-600 hover:underline capitalize">delete</button>
+                                </form>
                             </td>
                         </tr>
                     <?php endforeach; ?>

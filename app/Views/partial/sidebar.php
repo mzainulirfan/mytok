@@ -1,4 +1,5 @@
-<?php $url = new \CodeIgniter\HTTP\URI(current_url()); { ?>
+<?php $url = new \CodeIgniter\HTTP\URI(current_url()); {
+?>
     <aside class="bg-white w-60 h-full">
         <nav class="p-6">
             <ul class="flex flex-col space-y-1">

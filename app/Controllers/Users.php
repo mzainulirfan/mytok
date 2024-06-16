@@ -32,12 +32,12 @@ class Users extends BaseController
         $phone =  $this->request->getVar('phoneUser');
         $password =  $this->request->getVar('passwordUser');
 
-        $valiationRules = [
+        $validationRules = [
             'fullnameUser' => 'required|is_unique[users.fullname_user]',
             'emailUser' => 'required|valid_email|is_unique[users.email_user]',
             'phoneUser' => 'required|numeric'
         ];
-        if (!$this->validate($valiationRules)) {
+        if (!$this->validate($validationRules)) {
             session()->setFlashdata('errors', 'Fail to create a user, try again!');
             return redirect()->back()->withInput()->with('validation', $this->validator);
         }
@@ -64,5 +64,45 @@ class Users extends BaseController
             'user' => $user
         ];
         return view('users/detail', $data);
+    }
+    public function updateUser($userId)
+    {
+        $newFullname =  $this->request->getVar('fullnameUser');
+        $username =  $this->request->getVar('usernameUser');
+        $newEmail =  $this->request->getVar('emailUser');
+        $phone =  $this->request->getVar('phoneUser');
+
+        $user = $this->userModel->find($userId);
+        $currentFullname = $user['fullname_user'];
+        $currentEmail = $user['email_user'];
+
+        $fullnameRules = ($newFullname == $currentFullname) ? 'required' : 'required|is_unique[users.fullname_user]';
+        $emailRules = ($newEmail == $currentEmail) ? 'required' : 'required|is_unique[users.email_user]';
+
+        $validationRules = [
+            'fullnameUser' => $fullnameRules,
+            'emailUser' => $emailRules,
+            'phoneUser' => 'required|numeric'
+        ];
+        if (!$this->validate($validationRules)) {
+            session()->setFlashdata('errors', 'Fail to create a user, try again!');
+            return redirect()->back()->withInput()->with('validation', $this->validator);
+        }
+
+        $data = [
+            'user_id' => $userId,
+            'fullname_user' => $newFullname,
+            'email_user' => $newEmail,
+            'phone_user' => $phone
+        ];
+        $this->userModel->update($userId, $data);
+        session()->setFlashdata('success', 'user has been update successfully');
+        return redirect()->to('users/' . $username . '/detail');
+    }
+    public function deleteUser($userId)
+    {
+        $this->userModel->delete($userId);
+        session()->setFlashdata('success', 'delete user has been successfully');
+        return redirect()->to('/users');
     }
 }

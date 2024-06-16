@@ -1,4 +1,5 @@
-<?= $this->extend('layout'); ?>
+<?= $this->extend('layout');
+?>
 <?= $this->section('content'); ?>
 <h1 class="text-2xl font-semibold">Create Category</h1>
 <div class="mt-6 border p-4 py-6 rounded-lg">

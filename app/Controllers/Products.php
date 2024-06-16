@@ -95,11 +95,9 @@ class Products extends BaseController
         $newProductName =  $this->request->getVar('productName');
         $product = $this->productModel->find($productId);
         $currentProductName = $product['product_name'];
-        if ($newProductName == $currentProductName) {
-            $productNameRules = 'required|min_length[5]';
-        } else {
-            $productNameRules = 'required|min_length[5]|is_unique[products.product_name]';
-        }
+
+        $productNameRules = ($newProductName == $currentProductName) ? 'required|min_length[5]' : 'required|min_length[5]|is_unique[products.product_name]';
+
         $validationRules = [
             'productName' => $productNameRules,
             'productStock' => 'required|numeric',
