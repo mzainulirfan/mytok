@@ -6,7 +6,6 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 
-
 $routes->get('/', 'Home::index', ['filter' => 'authenticate']);
 $routes->group('product', ['filter' => 'authenticate'], function ($routes) {
     $routes->get('', 'Products::index');
@@ -28,7 +27,6 @@ $routes->group('categories', ['filter' => 'authenticate'], function ($routes) {
     $routes->delete('(:num)', 'Categories::deleteCategory/$1');
 });
 
-
 $routes->group('orders', ['filter' => 'authenticate'], function ($routes) {
     $routes->get('', 'Orders::index');
     $routes->get('create', 'Orders::createOrder');
@@ -38,16 +36,20 @@ $routes->group('orders', ['filter' => 'authenticate'], function ($routes) {
     $routes->post('checkout', 'Orders::checkout');
     $routes->get('(:segment)/detail', 'Orders::orderDetail/$1/detail');
 });
+// ['filter' => 'authenticate'],
 $routes->group('users', ['filter' => 'authenticate'], function ($routes) {
     $routes->get('', 'Users::index');
     $routes->post('save', 'Users::save');
     $routes->post('(:num)/update', 'Users::updateUser/$1/update');
     $routes->get('(:segment)/detail', 'Users::detailUser/$1/detail');
     $routes->delete('(:num)', 'Users::deleteUser/$1');
+    $routes->post('(:num)/resetpassword', 'Users::resetPassword/$1/resetpassword');
 });
 
 $routes->group('auth', ['filter' => 'redirectIfAuthenticated'], function ($routes) {
     $routes->get('', 'Auth::index');
     $routes->post('login', 'Auth::authProcess');
 });
+
 $routes->get('auth/logout', 'Auth::logout', ['filter' => 'authenticate']);
+$routes->post('register/save', 'RegisterUser::save', ['filter' => 'redirectIfAuthenticated']);

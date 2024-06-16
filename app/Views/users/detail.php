@@ -11,25 +11,43 @@
         <?= session()->getFlashdata('errors'); ?>
     </div>
 <?php endif; ?>
-<div class="flex gap-4 mt-6">
-    <div class="border p-6 rounded-lg w-4/12  space-y-5 flex flex-col items-center">
-        <div class="w-20 h-20 bg-gray-500 rounded-full">
-            <img src="" alt="">
+<div class="flex gap-4 mt-6 w-full">
+    <div class="flex flex-col w-4/12 gap-4">
+        <div class="border p-6 rounded-lg space-y-5 flex flex-col items-center">
+            <div class="w-20 h-20 bg-gray-500 rounded-full">
+                <img src="" alt="">
+            </div>
+            <div class="flex flex-col space-y-6">
+                <div>
+                    <p>fullname: <?= esc($user['fullname_user']); ?></p>
+                    <p>email: <?= esc($user['email_user']); ?></p>
+                    <p>phone: <?= esc($user['phone_user']); ?></p>
+                </div>
+                <div class="flex space-x-2">
+                    <button type="button" data-modal-target="edit-modal" data-modal-toggle="edit-modal" class="border px-4 py-2 rounded-lg capitalize hover:bg-gray-200 hover:text-slate-900 transition duration-200">edit</button>
+                    <form action="<?= base_url(); ?>users/<?= $user['user_id']; ?>" method="post">
+                        <?= csrf_field(); ?>
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit" onclick="return confirm('Apakah yakin data <?= esc($user['fullname_user']); ?> mau dihapus?')" class="border px-4 py-2 rounded-lg capitalize hover:bg-gray-200 hover:text-slate-900 transition duration-200">delete</button>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="flex flex-col space-y-6">
-            <div>
-                <p>fullname: <?= esc($user['fullname_user']); ?></p>
-                <p>email: <?= esc($user['email_user']); ?></p>
-                <p>phone: <?= esc($user['phone_user']); ?></p>
-            </div>
-            <div class="flex space-x-2">
-                <button type="button" data-modal-target="edit-modal" data-modal-toggle="edit-modal" class="border px-4 py-2 rounded-lg capitalize hover:bg-gray-200 hover:text-slate-900 transition duration-200">edit</button>
-                <form action="<?= base_url(); ?>users/<?= $user['user_id']; ?>" method="post">
-                    <?= csrf_field(); ?>
-                    <input type="hidden" name="_method" value="DELETE">
-                    <button type="submit" onclick="return confirm('Apakah yakin data <?= esc($user['fullname_user']); ?> mau dihapus?')" class="border px-4 py-2 rounded-lg capitalize hover:bg-gray-200 hover:text-slate-900 transition duration-200">delete</button>
-                </form>
-            </div>
+        <div class="border p-6 rounded-lg">
+            <h5 class="capitalize text-md mb-4">change password</h5>
+            <form action="<?= base_url(); ?>users/<?= $user['user_id']; ?>/resetpassword" method="post">
+                <input type="hidden" name="usernameUser" value="<?= esc($user['username_user']); ?>">
+                <?= csrf_field() ?>
+                <div class="flex flex-col space-y-1.5 mb-3">
+                    <input type="password" name="newPasswordUser" id="newPasswordUser" value="<?= esc(old('newPasswordUser')); ?>" placeholder="new password" class="border p-2 border-gray-300 rounded-lg outline-none <?= (session()->has('validation') && ($validation = session('validation'))->hasError('newPasswordUser')) ? 'invalid' : 'form-control' ?>">
+                    <?php if (session()->has('validation') && ($validation = session('validation'))->hasError('newPasswordUser')) : ?>
+                        <div class=" text-red-500 text-xs">
+                            <?= $validation->getError('newPasswordUser'); ?>
+                        </div>
+                    <?php endif ?>
+                    <button class="border p-2 rounded-lg outline-none focus:ring focus:ring-gray-400 hover:bg-gray-200 hover:text-slate-900 transition duration-200" type="submit">Update</button>
+                </div>
+            </form>
         </div>
     </div>
     <div class="border p-6 rounded-lg flex-1">

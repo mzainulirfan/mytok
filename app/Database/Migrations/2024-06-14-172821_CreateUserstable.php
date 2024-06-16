@@ -31,6 +31,12 @@ class CreateUserstable extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 20
             ],
+            'gender_user' => [
+                'type' => 'ENUM',
+                'constraint' => ['male', 'female'],
+                'default' => 'male',
+                'null' => true
+            ],
             'is_active_user' => [
                 'type' => 'BOOLEAN',
                 'default' => true

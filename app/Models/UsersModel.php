@@ -17,6 +17,7 @@ class UsersModel extends Model
         'username_user',
         'email_user',
         'phone_user',
+        'gender_user',
         'is_active_user',
         'password_user',
         'created_at',

@@ -42,10 +42,17 @@
                                 <span class="font-semibold text-gray-700"><?= esc($user['email_user']); ?></span>
                             </td>
                             <td class="px-6 py-4">
-                                <span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full capitalize">
-                                    <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
-                                    Pending
-                                </span>
+                                <?php if ($user['is_active_user'] == true) : ?>
+                                    <span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full capitalize">
+                                        <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                                        active
+                                    </span>
+                                <?php else : ?>
+                                    <span class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full capitalize">
+                                        <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                                        pending
+                                    </span>
+                                <?php endif ?>
                             </td>
                             <td class="px-6 py-4 flex space-x-2 items-center  justify-end">
                                 <a href="<?= base_url(); ?>users/<?= esc($user['username_user']); ?>/detail" class="font-medium text-blue-600 hover:underline capitalize">detail</a>
@@ -122,7 +129,7 @@
                 </div>
                 <div class="flex flex-col space-y-1.5 mb-3">
                     <label for="passwordUser">Password User</label>
-                    <input type="text" name="passwordUser" id="passwordUser" value="<?= esc(old('passwordUser')); ?>" placeholder="phone" class="border p-2 border-gray-300 rounded-lg outline-none <?= (session()->has('validation') && ($validation = session('validation'))->hasError('passwordUser')) ? 'invalid' : 'form-control' ?>">
+                    <input type="password" name="passwordUser" id="passwordUser" value="<?= esc(old('passwordUser')); ?>" placeholder="phone" class="border p-2 border-gray-300 rounded-lg outline-none <?= (session()->has('validation') && ($validation = session('validation'))->hasError('passwordUser')) ? 'invalid' : 'form-control' ?>">
                     <?php if (session()->has('validation') && ($validation = session('validation'))->hasError('passwordUser')) : ?>
                         <div class=" text-red-500 text-xs">
                             <?= $validation->getError('passwordUser'); ?>

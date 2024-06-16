@@ -148,13 +148,14 @@ class Orders extends BaseController
     {
         // Ambil data keranjang belanja dari session
         $cartItems = session()->get('cart') ?? [];
-        $users = $this->userModel->findAll();
-        $userIds = array_column($users, 'user_id');
-        $randomUserId = $userIds[array_rand($userIds)];
+        // $users = $this->userModel->findAll();
+        // $userIds = array_column($users, 'user_id');
+        // $randomUserId = $userIds[array_rand($userIds)];
+        $orderBy = session()->get('user_id');
 
         $data = [
             'order_total_amount' =>  $this->request->getVar('totalAmount'),
-            'order_user_id' => $randomUserId,
+            'order_user_id' => $orderBy,
             'order_payment_status' => 'unpaid',
             'created_at' => date('Y-m-d H:i:s')
         ];

@@ -46,6 +46,7 @@ class Users extends BaseController
             'username_user' => url_title($fullname, '-', true),
             'email_user' => $email,
             'phone_user' => $phone,
+            'gender_user' => 'male',
             'password_user' => password_hash($password, PASSWORD_DEFAULT),
             'created_at' => date('Y-m-d H:i:s')
         ];
@@ -93,12 +94,35 @@ class Users extends BaseController
             'user_id' => $userId,
             'fullname_user' => $newFullname,
             'email_user' => $newEmail,
-            'phone_user' => $phone
+            'phone_user' => $phone,
+            'updated_at' => date('Y-m-d H:i:s')
         ];
         $this->userModel->update($userId, $data);
         session()->setFlashdata('success', 'user has been update successfully');
         return redirect()->to('users/' . $username . '/detail');
     }
+
+    public function resetPassword($userId)
+    {
+        $userId = $userId;
+        $newPassword =  $this->request->getVar('newPasswordUser');
+        $username =  $this->request->getVar('usernameUser');
+        $validationRules = [
+            'newPasswordUser' => 'required'
+        ];
+        if (!$this->validate($validationRules)) {
+            return redirect()->back()->withInput()->with('validation', $this->validator);
+        }
+        $data = [
+            'user_id' => $userId,
+            'password_user' => password_hash($newPassword, PASSWORD_DEFAULT),
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+        $this->userModel->update($userId, $data);
+        session()->setFlashdata('success', 'user has been update successfully');
+        return redirect()->to('users/' . $username . '/detail');
+    }
+
     public function deleteUser($userId)
     {
         $this->userModel->delete($userId);
