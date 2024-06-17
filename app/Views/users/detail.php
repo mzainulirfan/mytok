@@ -39,7 +39,7 @@
                 <input type="hidden" name="usernameUser" value="<?= esc($user['username_user']); ?>">
                 <?= csrf_field() ?>
                 <div class="flex flex-col space-y-1.5 mb-3">
-                    <input type="password" name="newPasswordUser" id="newPasswordUser" value="<?= esc(old('newPasswordUser')); ?>" placeholder="new password" class="border p-2 border-gray-300 rounded-lg outline-none <?= (session()->has('validation') && ($validation = session('validation'))->hasError('newPasswordUser')) ? 'invalid' : 'form-control' ?>">
+                    <input type="password" name="newPasswordUser" id="newPasswordUser" value="<?= esc(old('newPasswordUser')); ?>" placeholder="new password" class="border px-4 py-2 border-gray-300 rounded-lg outline-none <?= (session()->has('validation') && ($validation = session('validation'))->hasError('newPasswordUser')) ? 'invalid' : 'form-control' ?>">
                     <?php if (session()->has('validation') && ($validation = session('validation'))->hasError('newPasswordUser')) : ?>
                         <div class=" text-red-500 text-xs">
                             <?= $validation->getError('newPasswordUser'); ?>
