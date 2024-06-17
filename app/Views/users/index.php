@@ -25,6 +25,9 @@
                             Email
                         </th>
                         <th scope="col" class="px-6 py-3">
+                            Gender
+                        </th>
+                        <th scope="col" class="px-6 py-3">
                             status
                         </th>
                         <th scope="col" class="px-6 py-3 text-end">
@@ -40,6 +43,9 @@
                             </th>
                             <td class="px-6 py-4">
                                 <span class="font-semibold text-gray-700"><?= esc($user['email_user']); ?></span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="font-semibold text-gray-700 capitalize"><?= esc($user['gender_user']); ?></span>
                             </td>
                             <td class="px-6 py-4">
                                 <?php if ($user['is_active_user'] == true) : ?>
@@ -128,8 +134,21 @@
                     <?php endif ?>
                 </div>
                 <div class="flex flex-col space-y-1.5 mb-3">
+                    <label for="phoneUser">Gender User</label>
+                    <div class="flex ">
+                        <div class="flex items-center me-4 border p-2 rounded-md">
+                            <input id="genderMale" type="radio" value="male" name="genderUser" checked class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                            <label for="genderMale" class="ms-2 text-sm font-medium">Male</label>
+                        </div>
+                        <div class="flex items-center me-4 border p-2 rounded-md    ">
+                            <input id="genderFemale" type="radio" value="female" name="genderUser" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                            <label for="genderFemale" class="ms-2 text-sm font-medium">Female</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col space-y-1.5 mb-3">
                     <label for="passwordUser">Password User</label>
-                    <input type="password" name="passwordUser" id="passwordUser" value="<?= esc(old('passwordUser')); ?>" placeholder="phone" class="border p-2 border-gray-300 rounded-lg outline-none <?= (session()->has('validation') && ($validation = session('validation'))->hasError('passwordUser')) ? 'invalid' : 'form-control' ?>">
+                    <input type="password" name="passwordUser" id="passwordUser" value="<?= esc(old('passwordUser')); ?>" placeholder="**********" class="border p-2 border-gray-300 rounded-lg outline-none <?= (session()->has('validation') && ($validation = session('validation'))->hasError('passwordUser')) ? 'invalid' : 'form-control' ?>">
                     <?php if (session()->has('validation') && ($validation = session('validation'))->hasError('passwordUser')) : ?>
                         <div class=" text-red-500 text-xs">
                             <?= $validation->getError('passwordUser'); ?>

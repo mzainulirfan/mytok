@@ -18,6 +18,7 @@ class RegisterUser extends BaseController
         $fullname =  $this->request->getVar('fullnameUser');
         $email =  $this->request->getVar('emailUser');
         $phone =  $this->request->getVar('phoneUser');
+        $gender =  $this->request->getVar('genderUser');
         $password =  $this->request->getVar('passwordUser');
 
         $validationRules = [
@@ -34,7 +35,7 @@ class RegisterUser extends BaseController
             'username_user' => url_title($fullname, '-', true),
             'email_user' => $email,
             'phone_user' => $phone,
-            'gender_user' => 'male',
+            'gender_user' => $gender,
             'password_user' => password_hash($password, PASSWORD_DEFAULT),
             'created_at' => date('Y-m-d H:i:s')
         ];

@@ -45,6 +45,7 @@ $routes->group('users', ['filter' => 'authenticate'], function ($routes) {
     $routes->delete('(:num)', 'Users::deleteUser/$1');
     $routes->post('(:num)/resetpassword', 'Users::resetPassword/$1/resetpassword');
     $routes->post('(:num)/upload', 'Users::uploadPhotoUser/$1/upload');
+    $routes->post('(:num)/changeusername', 'Users::changeUsername/$1/changeusername');
 });
 
 $routes->group('auth', ['filter' => 'redirectIfAuthenticated'], function ($routes) {

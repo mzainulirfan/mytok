@@ -30,6 +30,7 @@ class Users extends BaseController
         $fullname =  $this->request->getVar('fullnameUser');
         $email =  $this->request->getVar('emailUser');
         $phone =  $this->request->getVar('phoneUser');
+        $gender =  $this->request->getVar('genderUser');
         $password =  $this->request->getVar('passwordUser');
 
         $validationRules = [
@@ -46,7 +47,7 @@ class Users extends BaseController
             'username_user' => url_title($fullname, '-', true),
             'email_user' => $email,
             'phone_user' => $phone,
-            'gender_user' => 'male',
+            'gender_user' => $gender,
             'password_user' => password_hash($password, PASSWORD_DEFAULT),
             'created_at' => date('Y-m-d H:i:s')
         ];
@@ -71,6 +72,7 @@ class Users extends BaseController
         $newFullname =  $this->request->getVar('fullnameUser');
         $username =  $this->request->getVar('usernameUser');
         $newEmail =  $this->request->getVar('emailUser');
+        $gender =  $this->request->getVar('genderUser');
         $phone =  $this->request->getVar('phoneUser');
 
         $user = $this->userModel->find($userId);
@@ -95,11 +97,34 @@ class Users extends BaseController
             'fullname_user' => $newFullname,
             'email_user' => $newEmail,
             'phone_user' => $phone,
+            'gender_user' => $gender,
             'updated_at' => date('Y-m-d H:i:s')
         ];
         $this->userModel->update($userId, $data);
         session()->setFlashdata('success', 'user has been update successfully');
         return redirect()->to('users/' . $username . '/detail');
+    }
+    public function changeUsername($userId)
+    {
+        $currentUsername =  $this->request->getVar('usernameUser');
+        $newUsername =  $this->request->getVar('newUsername');
+
+        // $user = $this->userModel->find($userId);
+        $usernameRules = ($currentUsername == $newUsername) ? 'required' : 'required|is_unique[users.username_user]';
+        $validationRules = [
+            'newUsername' => $usernameRules
+        ];
+        if (!$this->validate($validationRules)) {
+            session()->setFlashdata('errors', 'Fail to change username user, try again!');
+            return redirect()->back()->withInput()->with('validation', $this->validator);
+        };
+        $data = [
+            'username_user' => $newUsername,
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+        $this->userModel->update($userId, $data);
+        session()->setFlashdata('success', 'username user has been update successfully');
+        return redirect()->to('users/' . $newUsername . '/detail');
     }
 
     public function resetPassword($userId)
