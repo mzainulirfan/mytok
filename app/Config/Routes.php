@@ -44,6 +44,7 @@ $routes->group('users', ['filter' => 'authenticate'], function ($routes) {
     $routes->get('(:segment)/detail', 'Users::detailUser/$1/detail');
     $routes->delete('(:num)', 'Users::deleteUser/$1');
     $routes->post('(:num)/resetpassword', 'Users::resetPassword/$1/resetpassword');
+    $routes->post('(:num)/upload', 'Users::uploadPhotoUser/$1/upload');
 });
 
 $routes->group('auth', ['filter' => 'redirectIfAuthenticated'], function ($routes) {

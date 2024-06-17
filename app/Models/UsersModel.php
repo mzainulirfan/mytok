@@ -20,6 +20,7 @@ class UsersModel extends Model
         'gender_user',
         'is_active_user',
         'password_user',
+        'photo_user',
         'created_at',
         'updated_at',
     ];

@@ -45,6 +45,11 @@ class CreateUserstable extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 255
             ],
+            'photo_user' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+                'null' => true
+            ],
             'created_at' => [
                 'type' => 'DATETIME',
                 'null' => true

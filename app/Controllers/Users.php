@@ -122,7 +122,37 @@ class Users extends BaseController
         session()->setFlashdata('success', 'user has been update successfully');
         return redirect()->to('users/' . $username . '/detail');
     }
+    public function uploadPhotoUser($userId)
+    {
+        $photoUser = $this->request->getFile('photoUser');
+        $userId = $this->request->getVar('userId');
+        $username = $this->request->getVar('usernameUser');
+        $fileName = $photoUser->getName();
+        $validationRule = [
+            'photoUser' => [
+                'label' => 'Image File',
+                'rules' => 'uploaded[photoUser]'
+                . '|is_image[photoUser]'
+                . '|mime_in[photoUser,image/jpg,image/jpeg,image/gif,image/png]'
+                . '|max_size[photoUser,1024]', // Max size 1MB
+            ],
+        ];
 
+        if (!$this->validate($validationRule)) {
+            $data['validation'] = $this->validator;
+            return view('upload_form', $data);
+        }
+        $targetDirectory = FCPATH . 'dist/img/profile';
+        $photoUser->move($targetDirectory, $fileName);
+
+        $data = [
+            'photo_user' => $fileName,
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+        $this->userModel->update($userId, $data);
+        return redirect()->to('users/' . $username . '/detail');
+    }
+    
     public function deleteUser($userId)
     {
         $this->userModel->delete($userId);
