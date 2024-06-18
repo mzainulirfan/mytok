@@ -7,7 +7,7 @@
     </div>
 <?php endif; ?>
 <?php if (session()->getFlashdata('errors')) : ?>
-    <div class="border border-red-300 bg-red-200/25 text-green-700 p-4 rounded-lg my-4" role="alert">
+    <div class="border border-red-300 bg-red-200/25 text-red-700 p-4 rounded-lg my-4" role="alert">
         <?= session()->getFlashdata('errors'); ?>
     </div>
 <?php endif; ?>
@@ -15,8 +15,8 @@
 <div class="flex gap-4 mt-6 w-full">
     <div class="flex flex-col w-4/12 gap-4">
         <div class="border p-6 rounded-lg space-y-5 flex flex-col items-center">
-            <button data-modal-target="upload-foto-modal" data-modal-toggle="upload-foto-modal" type="button" class="w-20 h-20 bg-gray-500 rounded-full">
-                <img src="" alt="">
+            <button data-modal-target="upload-foto-modal" data-modal-toggle="upload-foto-modal" type="button" class="w-20 h-20 bg-gray-200 rounded-full">
+                <img src="<?= base_url(); ?>dist/img/profile/<?= ($user['photo_user'] == null) ? 'default.png' : $user['photo_user']; ?>" alt="" class="w-full h-full rounded-full object-cover">
             </button>
             <div class="flex flex-col space-y-6">
                 <div>
@@ -167,7 +167,7 @@
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
                 <h3 class="text-lg font-semibold text-gray-900 capitalize">
-                    Edit <?= $user['fullname_user']; ?>
+                    <?= ($user['photo_user'] == null) ? 'Upload' : 'Change'; ?> Photo <?= $user['fullname_user']; ?>
                 </h3>
                 <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="upload-foto-modal">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">

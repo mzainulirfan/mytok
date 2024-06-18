@@ -109,7 +109,6 @@ class Users extends BaseController
         $currentUsername =  $this->request->getVar('usernameUser');
         $newUsername =  $this->request->getVar('newUsername');
 
-        // $user = $this->userModel->find($userId);
         $usernameRules = ($currentUsername == $newUsername) ? 'required' : 'required|is_unique[users.username_user]';
         $validationRules = [
             'newUsername' => $usernameRules
@@ -152,21 +151,22 @@ class Users extends BaseController
         $photoUser = $this->request->getFile('photoUser');
         $userId = $this->request->getVar('userId');
         $username = $this->request->getVar('usernameUser');
-        $fileName = $photoUser->getName();
+        $fileName = $username . '-' . $photoUser->getRandomName();
         $validationRule = [
             'photoUser' => [
                 'label' => 'Image File',
                 'rules' => 'uploaded[photoUser]'
-                . '|is_image[photoUser]'
-                . '|mime_in[photoUser,image/jpg,image/jpeg,image/gif,image/png]'
-                . '|max_size[photoUser,1024]', // Max size 1MB
+                    . '|is_image[photoUser]'
+                    . '|mime_in[photoUser,image/jpg,image/jpeg,image/gif,image/png]'
+                    . '|max_size[photoUser,1024]', // Max size 1MB
             ],
         ];
 
         if (!$this->validate($validationRule)) {
-            $data['validation'] = $this->validator;
-            return view('upload_form', $data);
+            session()->setFlashdata('errors', 'Fail to change username user, try again!');
+            return redirect()->back()->withInput()->with('validation', $this->validator);
         }
+
         $targetDirectory = FCPATH . 'dist/img/profile';
         $photoUser->move($targetDirectory, $fileName);
 
@@ -177,9 +177,17 @@ class Users extends BaseController
         $this->userModel->update($userId, $data);
         return redirect()->to('users/' . $username . '/detail');
     }
-    
+
     public function deleteUser($userId)
     {
+        $user = $this->userModel->find($userId);
+        $photoUser = $user['photo_user'];
+
+        if ($photoUser != 'default.png') {
+            $targetDirectory = FCPATH . 'dist/img/profile/';
+            unlink($targetDirectory . $photoUser);
+        }
+
         $this->userModel->delete($userId);
         session()->setFlashdata('success', 'delete user has been successfully');
         return redirect()->to('/users');
