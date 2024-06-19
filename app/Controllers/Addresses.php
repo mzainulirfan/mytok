@@ -17,7 +17,7 @@ class Addresses extends BaseController
     {
         $username =  $this->request->getVar('usernameUser');
         $addressUserId = session()->get('user_id');
-        // dd($addressUserId);
+        
         $validationRules = [
             'addressName' => 'required',
             'addressLine' => 'required',
@@ -46,6 +46,39 @@ class Addresses extends BaseController
         session()->setFlashdata('success', 'new address has been saved');
         return redirect()->to('users/' . $username . '/address');
     }
+    public function editAddress($addressId)
+    {
+        $username =  $this->request->getVar('usernameUser');
+        $currentAddressId =  $this->request->getVar('currentAddressId');
+        $validationRules = [
+            'addressName' => 'required',
+            'addressLine' => 'required',
+            'addressPhone' => 'required|numeric',
+            'addressKecamatan' => 'required',
+            'addressKabupaten' => 'required',
+            'addressProvency' => 'required',
+            'addressPostalCode' => 'required|numeric',
+        ];
+        if (!$this->validate($validationRules)) {
+            session()->setFlashdata('errors', 'Fail to create edit address, try again!');
+            return redirect()->back()->withInput()->with('validation', $this->validator);
+        }
+
+        $data = [
+            'address_name' =>  $this->request->getVar('addressName'),
+            'address_line' =>  $this->request->getVar('addressLine'),
+            'address_phone' =>  $this->request->getVar('addressPhone'),
+            'address_kecamatan' =>  $this->request->getVar('addressKecamatan'),
+            'address_kabupaten' =>  $this->request->getVar('addressKabupaten'),
+            'address_province' =>  $this->request->getVar('addressProvency'),
+            'address_postal_code' =>  $this->request->getVar('addressPostalCode'),
+            'updated_at' =>  date('Y-m-d H:i:s')
+        ];
+        $this->addressModel->update($currentAddressId, $data);
+        session()->setFlashdata('success', 'edit address has been saved');
+        return redirect()->to('users/' . $username . '/address');
+    }
+
     public function asignToMainAddress($addressId)
     {
         $userId =  $this->request->getVar('userId');

@@ -22,6 +22,7 @@
     <script src="<?= base_url(); ?>dist/js/jquery-3.7.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     <script>
+        // change category 
         $(document).ready(function() {
             // Delegation to handle dynamically added elements
             $(document).on('click', '#btnEdit', function() {
@@ -37,6 +38,7 @@
                 $('#categoryDescription').val(categoryDescription);
             });
         });
+        // update stock 
         $(document).ready(function() {
             // Delegation to handle dynamically added elements
             $(document).on('click', '#btnUpdateStock', function() {
@@ -50,6 +52,30 @@
                 $('#productName').val(productName);
                 $('#productStock').val(productQty);
                 $('#productNameLabel').text(productName);
+            });
+        });
+
+        // edit address user
+        $(document).ready(function() {
+            $(document).on('click', '#btnEditAddress', function() {
+                // ambil data dari tombol 
+                var addressId = $(this).data('addressid');
+                var addressName = $(this).data('addressname');
+                var addressLine = $(this).data('addressline');
+                var addressPhone = $(this).data('addressphone');
+                var addressKecamatan = $(this).data('addresskec');
+                var addressKabupaten = $(this).data('addresskab');
+                var addressProv = $(this).data('addressprov');
+                var addressPostal = $(this).data('addresspostal');
+                // simpan nilai kedalam input 
+                $('#currentAddressId').val(addressId);
+                $('#addressName').val(addressName);
+                $('#addressPhone').val(addressPhone);
+                $('#addressLine').val(addressLine);
+                $('#addressKecamatan').val(addressKecamatan);
+                $('#addressKabupaten').val(addressKabupaten);
+                $('#addressProvency').val(addressProv);
+                $('#addressPostalCode').val(addressPostal);
             });
         });
     </script>

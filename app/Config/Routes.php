@@ -71,6 +71,7 @@ $routes->group(
     function ($routes) {
         $routes->post('save', 'Addresses::save');
         $routes->post('(:num)/asigntomain', 'Addresses::asignToMainAddress/$1/asigntomain');
+        $routes->post('(:num)/edit', 'Addresses::editAddress/$1/edit');
         $routes->delete('(:num)', 'Addresses::deleteAddress/$1');
     }
 );
