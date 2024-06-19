@@ -7,17 +7,20 @@ use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\UsersModel;
 use App\Models\ordersModel;
 use App\Models\AddressModel;
+use App\Models\UserAddressModel;
 
 class Users extends BaseController
 {
     private $userModel;
     private $orderModel;
     private $addressModel;
+    private $userAddressModel;
     public function __construct()
     {
         $this->userModel = new UsersModel();
         $this->orderModel = new OrdersModel();
         $this->addressModel = new AddressModel();
+        $this->userAddressModel = new UserAddressModel();
     }
     public function index()
     {
@@ -203,13 +206,6 @@ class Users extends BaseController
         return redirect()->to('/users');
     }
 
-    public function userAddress()
-    {
-        $data = [
-            'title' => 'manage address'
-        ];
-        return view('addresses/index', $data);
-    }
     public function detailUserOrder($username)
     {
         $user = $this->userModel->where('username_user', $username)->first();
@@ -225,12 +221,14 @@ class Users extends BaseController
     public function detailUserAddress($username)
     {
         $user = $this->userModel->where('username_user', $username)->first();
-        // $userId = $user['user_id'];
-        $address = $this->addressModel->findAll();
+        $userId = $user['user_id'];
+        $address = $this->addressModel->where('address_user_id', $userId)->findAll();
+        // $isMainAddress = $this->userAddressModel->where('user_address_user_id', $userId); //lanjutkan
         $data = [
-            'title' => 'Orders',
+            'title' => 'Addresses',
             'addresses' => $address,
             'user' => $user,
+            // 'isMainAddress' => $isMainAddress
         ];
         return view('addresses/index', $data);
     }

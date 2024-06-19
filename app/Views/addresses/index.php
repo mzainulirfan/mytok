@@ -13,7 +13,16 @@
                 <p class="text-gray-500 font-light text-sm"><?= $address['address_line'] . ' - ' . $address['address_kecamatan'] . ' - ' . $address['address_kabupaten'] . ' - ' . $address['address_province'] . ' - ' . $address['address_postal_code']; ?></p>
             </div>
             <div class="flex flex-col gap-2 items-end">
-                <button class="px-4 py-1 border rounded-lg text-nowrap antialiased">make main</button>
+                <?php if (!$address['address_is_main']) : ?>
+                    <form action="<?= base_url(); ?>addresses/<?= $address['address_id']; ?>/asigntomain" method="post">
+                        <?= csrf_field(); ?>
+                        <input type="hidden" name="userId" value="<?= $user['user_id']; ?>">
+                        <input type="hidden" name="usernameUser" value="<?= $user['username_user']; ?>">
+                        <button type="submit" class="px-4 py-1 border rounded-lg text-nowrap antialiased">make main</button>
+                    </form>
+                <?php else : ?>
+                    <button class="px-4 py-1 border rounded-lg text-nowrap antialiased bg-gray-300 text-gray-400" disabled>make main</button>
+                <?php endif ?>
                 <div class="flex items-center space-x-3">
                     <button class="hover:text-orange-400 transition duration-200 capitalize">edit</button>
                     <form action="<?= base_url(); ?>addresses/<?= $address['address_id']; ?>" method="post">
@@ -51,7 +60,7 @@
                 </button>
             </div>
             <!-- Modal body -->
-            <form action="<?= base_url(); ?>addresess/save" method="post" class="p-5">
+            <form action="<?= base_url(); ?>addresses/save" method="post" class="p-5">
                 <?= csrf_field() ?>
                 <input type="hidden" name="usernameUser" value="<?= $user['username_user']; ?>">
                 <div class="flex flex-col space-y-1.5 mb-3">
@@ -82,8 +91,8 @@
                     <?php endif ?>
                 </div>
 
-                <div class="flex items-center space-x-2">
-                    <div class="flex flex-col space-y-1.5 mb-3 w-5/12">
+                <div class="flex items-center justify-between space-x-2 mb-3">
+                    <div class="flex flex-col space-y-1.5 w-5/12">
                         <label for="addressKecamatan">Kecamatan</label>
                         <input type="text" name="addressKecamatan" id="addressKecamatan" value="<?= esc(old('addressKecamatan')); ?>" placeholder="Kecamatan" class="border p-2 border-gray-300 rounded-lg outline-none <?= (session()->has('validation') && ($validation = session('validation'))->hasError('addressKecamatan')) ? 'invalid' : 'form-control' ?>">
                         <?php if (session()->has('validation') && ($validation = session('validation'))->hasError('addressKecamatan')) : ?>
@@ -92,7 +101,7 @@
                             </div>
                         <?php endif ?>
                     </div>
-                    <div class="flex flex-col space-y-1.5 mb-3 flex-1">
+                    <div class="flex flex-col space-y-1.5 flex-1">
                         <label for="addressKabupaten">Kabupaten</label>
                         <input type="text" name="addressKabupaten" id="addressKabupaten" value="<?= esc(old('addressKabupaten')); ?>" placeholder="Kabupaten" class="border p-2 border-gray-300 rounded-lg outline-none <?= (session()->has('validation') && ($validation = session('validation'))->hasError('addressKabupaten')) ? 'invalid' : 'form-control' ?>">
                         <?php if (session()->has('validation') && ($validation = session('validation'))->hasError('addressKabupaten')) : ?>

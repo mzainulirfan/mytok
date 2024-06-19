@@ -16,6 +16,21 @@ class Addresses extends BaseController
     public function save()
     {
         $username =  $this->request->getVar('usernameUser');
+        $addressUserId = session()->get('user_id');
+        // dd($addressUserId);
+        $validationRules = [
+            'addressName' => 'required',
+            'addressLine' => 'required',
+            'addressPhone' => 'required|numeric',
+            'addressKecamatan' => 'required',
+            'addressKabupaten' => 'required',
+            'addressProvency' => 'required',
+            'addressPostalCode' => 'required|numeric',
+        ];
+        if (!$this->validate($validationRules)) {
+            session()->setFlashdata('errors', 'Fail to create new address, try again!');
+            return redirect()->back()->withInput()->with('validation', $this->validator);
+        };
         $data = [
             'address_name' =>  $this->request->getVar('addressName'),
             'address_line' =>  $this->request->getVar('addressLine'),
@@ -24,9 +39,31 @@ class Addresses extends BaseController
             'address_kabupaten' =>  $this->request->getVar('addressKabupaten'),
             'address_province' =>  $this->request->getVar('addressProvency'),
             'address_postal_code' =>  $this->request->getVar('addressPostalCode'),
+            'address_user_id' =>  $addressUserId,
             'created_at' =>  date('Y-m-d H:i:s')
         ];
         $this->addressModel->save($data);
+        session()->setFlashdata('success', 'new address has been saved');
+        return redirect()->to('users/' . $username . '/address');
+    }
+    public function asignToMainAddress($addressId)
+    {
+        $userId =  $this->request->getVar('userId');
+        // $userIdSession = session()->get('user_id');
+        // dd($userId, $userIdSession);
+        $username =  $this->request->getVar('usernameUser');
+        $isMainAddress = $this->addressModel->where('address_user_id', $userId)->where('address_is_main', 1)->first();
+        // $allAddressId = $isMainAddress['address_id'];
+        $data = [
+            'address_is_main' => 1
+        ];
+        if ($isMainAddress) {
+            $this->addressModel
+                ->update($isMainAddress['address_id'], ['address_is_main' => 0]);
+        }
+        $this->addressModel
+            ->update($addressId, ['address_is_main' => 1]);
+
         session()->setFlashdata('success', 'new address has been saved');
         return redirect()->to('users/' . $username . '/address');
     }

@@ -20,6 +20,8 @@ class AddressModel extends Model
         'address_kabupaten',
         'address_province',
         'address_postal_code',
+        'address_user_id',
+        'address_is_main',
         'created_at',
         'updated_at'
     ];

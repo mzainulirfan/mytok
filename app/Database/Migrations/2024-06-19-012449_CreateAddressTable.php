@@ -49,6 +49,17 @@ class CreateAddressTable extends Migration
                 'constraint' => 255,
                 'null' => true
             ],
+            'address_user_id' => [
+                'type' => 'INT',
+                'constraint' => 5,
+                'unsigned' => true
+            ],
+            'address_is_main' => [
+                'type' => 'TINYINT',
+                'constraint' => 1,
+                'default' => 0,
+                'null' => false,
+            ],
             'created_at' => [
                 'type' => 'DATETIME',
                 'null' => true
@@ -59,6 +70,7 @@ class CreateAddressTable extends Migration
             ]
         ]);
         $this->forge->addKey('address_id', true);
+        $this->forge->addForeignKey('address_user_id', 'users', 'user_id', 'restrict', 'cascade');
         $this->forge->createTable('addresses', true);
     }
 

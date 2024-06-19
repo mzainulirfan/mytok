@@ -70,6 +70,7 @@ $routes->group(
     ['filter' => 'authenticate'],
     function ($routes) {
         $routes->post('save', 'Addresses::save');
+        $routes->post('(:num)/asigntomain', 'Addresses::asignToMainAddress/$1/asigntomain');
         $routes->delete('(:num)', 'Addresses::deleteAddress/$1');
     }
 );
