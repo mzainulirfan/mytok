@@ -6,15 +6,18 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\UsersModel;
 use App\Models\ordersModel;
+use App\Models\AddressModel;
 
 class Users extends BaseController
 {
     private $userModel;
     private $orderModel;
+    private $addressModel;
     public function __construct()
     {
         $this->userModel = new UsersModel();
         $this->orderModel = new OrdersModel();
+        $this->addressModel = new AddressModel();
     }
     public function index()
     {
@@ -65,7 +68,7 @@ class Users extends BaseController
             'orders' => $orders,
             'user' => $user
         ];
-        return view('users/detail', $data);
+        return view('users/orders', $data);
     }
     public function updateUser($userId)
     {
@@ -116,7 +119,7 @@ class Users extends BaseController
         if (!$this->validate($validationRules)) {
             session()->setFlashdata('errors', 'Fail to change username user, try again!');
             return redirect()->back()->withInput()->with('validation', $this->validator);
-        };
+        }
         $data = [
             'username_user' => $newUsername,
             'updated_at' => date('Y-m-d H:i:s')
@@ -128,7 +131,6 @@ class Users extends BaseController
 
     public function resetPassword($userId)
     {
-        $userId = $userId;
         $newPassword =  $this->request->getVar('newPasswordUser');
         $username =  $this->request->getVar('usernameUser');
         $validationRules = [
@@ -149,16 +151,15 @@ class Users extends BaseController
     public function uploadPhotoUser($userId)
     {
         $photoUser = $this->request->getFile('photoUser');
-        $userId = $this->request->getVar('userId');
         $username = $this->request->getVar('usernameUser');
-        $fileName = $username . '-' . $photoUser->getRandomName();
+
         $validationRule = [
             'photoUser' => [
                 'label' => 'Image File',
                 'rules' => 'uploaded[photoUser]'
                     . '|is_image[photoUser]'
                     . '|mime_in[photoUser,image/jpg,image/jpeg,image/gif,image/png]'
-                    . '|max_size[photoUser,1024]', // Max size 1MB
+                    . '|max_size[photoUser,1024]',
             ],
         ];
 
@@ -166,6 +167,15 @@ class Users extends BaseController
             session()->setFlashdata('errors', 'Fail to change username user, try again!');
             return redirect()->back()->withInput()->with('validation', $this->validator);
         }
+        $user = $this->userModel->find($userId);
+        $currentPhotoUser = $user['photo_user'];
+
+        if ($currentPhotoUser != null) {
+            $currentTargetDirectory = FCPATH . 'dist/img/profile/';
+            unlink($currentTargetDirectory . $currentPhotoUser);
+        }
+
+        $fileName = $username . '-' . $photoUser->getRandomName();
 
         $targetDirectory = FCPATH . 'dist/img/profile';
         $photoUser->move($targetDirectory, $fileName);
@@ -191,5 +201,37 @@ class Users extends BaseController
         $this->userModel->delete($userId);
         session()->setFlashdata('success', 'delete user has been successfully');
         return redirect()->to('/users');
+    }
+
+    public function userAddress()
+    {
+        $data = [
+            'title' => 'manage address'
+        ];
+        return view('addresses/index', $data);
+    }
+    public function detailUserOrder($username)
+    {
+        $user = $this->userModel->where('username_user', $username)->first();
+        $userId = $user['user_id'];
+        $orders = $this->orderModel->where('order_user_id', $userId)->get()->getResultArray();
+        $data = [
+            'title' => 'Orders',
+            'orders' => $orders,
+            'user' => $user,
+        ];
+        return view('users/orders', $data);
+    }
+    public function detailUserAddress($username)
+    {
+        $user = $this->userModel->where('username_user', $username)->first();
+        // $userId = $user['user_id'];
+        $address = $this->addressModel->findAll();
+        $data = [
+            'title' => 'Orders',
+            'addresses' => $address,
+            'user' => $user,
+        ];
+        return view('addresses/index', $data);
     }
 }
