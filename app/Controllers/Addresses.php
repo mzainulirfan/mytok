@@ -82,11 +82,8 @@ class Addresses extends BaseController
     public function asignToMainAddress($addressId)
     {
         $userId =  $this->request->getVar('userId');
-        // $userIdSession = session()->get('user_id');
-        // dd($userId, $userIdSession);
         $username =  $this->request->getVar('usernameUser');
         $isMainAddress = $this->addressModel->where('address_user_id', $userId)->where('address_is_main', 1)->first();
-        // $allAddressId = $isMainAddress['address_id'];
         $data = [
             'address_is_main' => 1
         ];

@@ -2,6 +2,7 @@
 <?= $this->section('userContent'); ?>
 <?php if (!empty($addresses)) : ?>
     <button data-modal-target="create-address-modal" data-modal-toggle="create-address-modal" type="button" class="mb-3 border px-4 py-1 rounded-lg">add new address</button>
+    <div class="border-b pb-4"></div>
     <?php foreach ($addresses as $address) : ?>
         <div class="border-b py-4 flex items-start justify-between">
             <div class="flex flex-col space-y-2">
@@ -54,7 +55,7 @@
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
                 <h3 class="text-lg font-semibold text-gray-900 capitalize">
-                    edit address
+                    edit address : <span id="nameLabel" class="underline"></span>
                 </h3>
                 <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="edit-address-modal">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">

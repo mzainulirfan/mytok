@@ -70,6 +70,7 @@
                 // simpan nilai kedalam input 
                 $('#currentAddressId').val(addressId);
                 $('#addressName').val(addressName);
+                $('#nameLabel').text(addressName);
                 $('#addressPhone').val(addressPhone);
                 $('#addressLine').val(addressLine);
                 $('#addressKecamatan').val(addressKecamatan);

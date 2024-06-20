@@ -22,7 +22,7 @@
                 <div>
                     <p>Fullname: <?= esc($user['fullname_user']); ?></p>
                     <p data-modal-target="change-username-modal" data-modal-toggle="change-username-modal" type="button">Username:
-                        <span class="inline-flex items-center hover:text-blue-500 cursor-pointer">
+                        <span class="inline-flex items-center hover:text-blue-500 hover:underline transition duration-200 cursor-pointer">
                             <span><?= esc($user['username_user']); ?></span>
                             <button class="ml-2 w-4 h-4 inline-block">
                                 <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
