@@ -22,7 +22,7 @@
                         <button type="submit" class="px-4 py-1 border rounded-lg text-nowrap antialiased">make main</button>
                     </form>
                 <?php else : ?>
-                    <button class="px-4 py-1 border rounded-lg text-nowrap antialiased bg-gray-300 text-gray-400" disabled>make main</button>
+                    <button class="px-4 py-1 border rounded-lg text-nowrap antialiased bg-gray-300 text-gray-400" disabled>main address</button>
                 <?php endif ?>
                 <div class="flex items-center space-x-3">
                     <button type="button" id="btnEditAddress" data-modal-target="edit-address-modal" data-modal-toggle="edit-address-modal" data-addressid="<?= $address['address_id']; ?>" data-addressname=" <?= $address['address_name']; ?>" data-addressline="<?= $address['address_line']; ?>" data-addressphone="<?= $address['address_phone']; ?>" data-addresskec="<?= $address['address_kecamatan']; ?>" data-addresskab="<?= $address['address_kabupaten']; ?>" data-addressprov="<?= $address['address_province']; ?>" data-addresspostal="<?= $address['address_postal_code']; ?>" class="hover:text-orange-400 transition duration-200 capitalize">edit</button>
