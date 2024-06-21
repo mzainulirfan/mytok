@@ -5,16 +5,23 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\ProductsModel;
+use App\Models\usersModel;
 use App\Models\CategoriesModel;
+use App\Models\UpdateStockModel;
 
 class Products extends BaseController
 {
     private $productModel;
+    private $userModel;
     private $categoryModel;
+    private $stockModel;
+
     public function __construct()
     {
         $this->productModel = new ProductsModel();
+        $this->userModel = new UsersModel();
         $this->categoryModel = new CategoriesModel();
+        $this->stockModel = new UpdateStockModel();
     }
     public function index()
     {
@@ -126,11 +133,39 @@ class Products extends BaseController
     public function updateProductStock()
     {
         $productId =  $this->request->getVar('productId');
+        $product = $this->productModel->find($productId);
+        // dd($product);
+        $currentStockQty = $product['product_stock'];
+
         $productName =  $this->request->getVar('productName');
+        $newStockQty =  $this->request->getVar('productStockQty');
+        $updateStockBy = session()->get('user_id');
+        // dd($updateStockBy);
+        $dataStock = [
+            'update_stock_product_id' => $productId,
+            'update_stock_update_by' => $updateStockBy,
+            'update_stock_qty' => $newStockQty,
+            'created_at' => date('Y-m-d H:i:s')
+        ];
+        $this->stockModel->save($dataStock);
+
         $data = [
             'product_id' =>  $productId,
-            'product_stock' =>  $this->request->getVar('productStock'),
+            'product_stock' =>  $currentStockQty + $newStockQty,
             'updated_at' => date('Y-m-d H:i:s')
+        ];
+        $this->productModel->update($productId, $data);
+        session()->setFlashdata('success', 'stock product ' . $productName . ' has been updated successfully');
+        return redirect()->to(base_url() . 'product');
+    }
+    public function clearStock()
+    {
+        $productId =  $this->request->getVar('productIdClear');
+        $productName =  $this->request->getVar('productNameClear');
+        $clearStock = 0;
+        // dd($idProduct, $productName, $clearStock);
+        $data = [
+            'product_stock' => $clearStock
         ];
         $this->productModel->update($productId, $data);
         session()->setFlashdata('success', 'stock product ' . $productName . ' has been updated successfully');

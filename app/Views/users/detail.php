@@ -132,7 +132,10 @@
                 <?= csrf_field(); ?>
                 <input type="hidden" name="userId" value="<?= esc($user['user_id']); ?>">
                 <input type="hidden" name="usernameUser" value="<?= esc($user['username_user']); ?>">
-                <input type="file" class="border border-gray-200 rounded-lg" name="photoUser" id="photoUser" accept="image/*" required>
+                <input type="file" class="border border-gray-200 rounded-lg w-full" name="photoUser" id="photoUser" accept="image/*" required>
+                <div id="previewDiv" class="h-full rounded-lg mt-4 overflow-hidden hidden">
+                    <img class="w-full h-full object-cover" src="" alt="" id="previewImg">
+                </div>
                 <button class="mt-3 border p-2 rounded-lg outline-none focus:ring focus:ring-gray-400 hover:bg-gray-200 hover:text-slate-900 transition duration-200 capitalize" type="submit">upload</button>
             </form>
         </div>

@@ -17,6 +17,7 @@ $routes->group(
         $routes->get('(:segment)/detail', 'Products::detailProduct/$1/detail');
         $routes->post('save', 'Products::saveProduct');
         $routes->post('update/(:num)', 'Products::updateProduct/$1');
+        $routes->post('clearstock', 'Products::clearStock');
         $routes->post('updatestock', 'Products::updateProductStock');
         $routes->delete('(:num)', 'Products::deleteProduct/$1');
     }

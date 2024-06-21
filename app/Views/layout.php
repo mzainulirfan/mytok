@@ -50,7 +50,10 @@
                 // $('#productName').val(productName);
                 $('#productId').val(productId);
                 $('#productName').val(productName);
-                $('#productStock').val(productQty);
+                $('#productStockQty').val(productQty);
+
+                $('#productNameClear').val(productName);
+                $('#productIdClear').val(productId);
                 $('#productNameLabel').text(productName);
             });
         });
@@ -77,6 +80,22 @@
                 $('#addressKabupaten').val(addressKabupaten);
                 $('#addressProvency').val(addressProv);
                 $('#addressPostalCode').val(addressPostal);
+            });
+        });
+        // img preview 
+        $(document).ready(function() {
+            $('#photoUser').change(function() {
+                var input = this;
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#previewImg').attr('src', e.target.result);
+                        $('#previewDiv').removeClass('hidden');
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                } else {
+                    $('#previewDiv').addClass('hidden');
+                }
             });
         });
     </script>

@@ -39,7 +39,10 @@
                     <?php foreach ($users as $user) : ?>
                         <tr class="bg-white border-b hover:bg-gray-50">
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                <a href="<?= base_url(); ?>users/<?= esc($user['username_user']); ?>/detail" class="hover:underline hover:text-blue-500 transition duration-200"><?= esc($user['fullname_user']); ?></a>
+                                <a href="<?= base_url(); ?>users/<?= esc($user['username_user']); ?>/detail" class="hover:underline capitalize hover:text-blue-500 transition duration-200 flex items-center space-x-1">
+                                    <img class="w-6 h-6 rounded-full" src="<?= base_url(); ?>dist/img/profile/<?= ($user['photo_user'] == null) ? 'default.png' : $user['photo_user']; ?>" alt="<?= $user['photo_user']; ?>">
+                                    <span><?= esc($user['fullname_user']); ?></span>
+                                </a>
                             </th>
                             <td class="px-6 py-4">
                                 <span class="font-semibold text-gray-700"><?= esc($user['email_user']); ?></span>

@@ -20,7 +20,12 @@ class CreateUpdateStockTable extends Migration
                 'constraint' => 5,
                 'unsigned' => true
             ],
-            'update_stock_value' => [
+            'update_stock_update_by' => [
+                'type' => 'INT',
+                'constraint' => 5,
+                'unsigned' => true
+            ],
+            'update_stock_qty' => [
                 'type' => 'INT',
                 'constraint' => 10,
                 'null' => true
@@ -36,6 +41,7 @@ class CreateUpdateStockTable extends Migration
         ]);
         $this->forge->addKey('update_stock_id', true);
         $this->forge->addForeignKey('update_stock_product_id', 'products', 'product_id', 'restrict', 'cascade');
+        $this->forge->addForeignKey('update_stock_update_by', 'users', 'user_id', 'restrict', 'cascade');
         $this->forge->createTable('update_stocks', true);
     }
 

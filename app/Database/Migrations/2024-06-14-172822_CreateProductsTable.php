@@ -20,13 +20,13 @@ class CreateProductsTable extends Migration
                 'constraint' => 255,
                 'null' => true
             ],
-            'product_price' => [ // Ubah 'product_prize' menjadi 'product_price'
-                'type' => 'VARCHAR', // Ubah tipe menjadi VARCHAR
+            'product_price' => [
+                'type' => 'VARCHAR',
                 'constraint' => 100,
                 'null' => true
             ],
             'product_is_active' => [
-                'type' => 'BOOLEAN', // Ubah 'boolean' menjadi 'BOOLEAN'
+                'type' => 'BOOLEAN', 
                 'default' => 1,
                 'null' => true
             ],
@@ -41,7 +41,7 @@ class CreateProductsTable extends Migration
                 'null' => true
             ],
             'product_category' => [
-                'type' => 'INT', // Ubah tipe menjadi INT
+                'type' => 'INT', 
                 'constraint' => 5,
                 'unsigned' => true,
             ],
