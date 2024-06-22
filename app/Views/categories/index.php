@@ -10,7 +10,12 @@
 
 <div class="mt-6 border p-4 py-6 rounded-lg">
     <?php if (!empty($categories)) : ?>
-        <a href="<?= base_url(); ?>product" class="border px-4 py-2 rounded-lg capitalize hover:bg-gray-200 hover:text-slate-900 transition duration-200">products</a>
+        <a href="<?= base_url(); ?>product" class="inline-flex items-center space-x-1 mb-3 capitalize hover:text-blue-500 transition duration-200">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 17L13 12L18 7M11 17L6 12L11 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span>back to product</span>
+        </a>
         <button data-modal-target="create-modal" data-modal-toggle="create-modal" class="inline border px-4 py-2 rounded-lg capitalize hover:bg-gray-200 hover:text-slate-900 transition duration-200" type="button">
             Create Category
         </button>
@@ -35,7 +40,7 @@
                     <?php foreach ($categories as $category) : ?>
                         <tr class="bg-white border-b hover:bg-gray-50">
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap w-10/12">
-                                <a href="<?= base_url(); ?>categories/<?= esc($category['category_slug']); ?>/detail"><?= esc($category['category_name']); ?></a>
+                                <a class="capitalize" href="<?= base_url(); ?>categories/<?= esc($category['category_slug']); ?>/detail"><?= esc($category['category_name']); ?></a>
                             </th>
                             <td class="px-6 py-4 text-center flex items-center space-x-2">
                                 <button type="button" id="btnEdit" data-modal-target="edit-modal" data-modal-toggle="edit-modal" data-categoryid="<?= esc($category['category_id']); ?>" data-categoryname="<?= esc($category['category_name']); ?>" data-categorydescription="<?= esc($category['category_description']); ?>" class="font-medium capitalize text-blue-600 hover:underline">ubah</button>

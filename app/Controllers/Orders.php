@@ -37,8 +37,11 @@ class Orders extends BaseController
     {
         // Get data from POST request
         $productId = $this->request->getPost('productId');
-        $productName = $this->request->getPost('productName');
-        $productPrice = $this->request->getPost('productPrice');
+        $product = $this->productModel->find($productId);
+        $productName = $product['product_name'];
+        $productPrice = $product['product_price'];
+        $productSlug = $product['product_slug'];
+        $productStock = $product['product_stock'];
         $productQty = $this->request->getPost('productQty');
 
         // Validate inputs
@@ -74,6 +77,8 @@ class Orders extends BaseController
                 'product_id' => $productId,
                 'product_name' => $productName,
                 'product_price' => $productPrice,
+                'product_slug' => $productSlug,
+                'product_stock' => $productStock,
                 'quantity' => $productQty
             ];
         }
@@ -104,9 +109,8 @@ class Orders extends BaseController
         }
 
         $data = [
-            'title' => 'create order',
-            'products' => $this->productModel->getAllProductsPublish(),
-            'cartItems' => $cartItems, // Kirim data keranjang belanja ke tampilan
+            'title' => 'cart',
+            'cartItems' => $cartItems,
             'totalQuantity' => $totalQuantity,
             'totalPrice' => $totalPrice //
         ];
@@ -148,11 +152,7 @@ class Orders extends BaseController
     {
         // Ambil data keranjang belanja dari session
         $cartItems = session()->get('cart') ?? [];
-        // $users = $this->userModel->findAll();
-        // $userIds = array_column($users, 'user_id');
-        // $randomUserId = $userIds[array_rand($userIds)];
         $orderBy = session()->get('user_id');
-
         $data = [
             'order_total_amount' =>  $this->request->getVar('totalAmount'),
             'order_user_id' => $orderBy,
@@ -170,6 +170,18 @@ class Orders extends BaseController
                 'item_order_qty' => $item['quantity']
             ];
             $this->itemOrderModel->save($orderItemData);
+        }
+
+        // kurangi stok
+        foreach ($cartItems as $item) {
+            $productId = $item['product_id'];
+            $product = $this->productModel->find($productId);
+            $currentStock = $product['product_stock'];
+            $itemQty = $item['quantity'];
+            $itemData = [
+                'product_stock' => $currentStock - $itemQty
+            ];
+            $this->productModel->update($productId, $itemData);
         }
 
         session()->remove('cart');
