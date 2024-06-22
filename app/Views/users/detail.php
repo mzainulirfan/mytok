@@ -11,6 +11,12 @@
         <?= session()->getFlashdata('errors'); ?>
     </div>
 <?php endif; ?>
+<a href="<?= base_url(); ?>users" class="inline-flex items-center space-x-1 mt-3 capitalize hover:text-blue-500 transition duration-200">
+    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M18 17L13 12L18 7M11 17L6 12L11 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+    <span>back to users</span>
+</a>
 
 <div class="flex gap-4 mt-6 w-full">
     <div class="flex flex-col w-4/12 gap-4">
