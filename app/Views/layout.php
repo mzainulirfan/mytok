@@ -100,35 +100,36 @@
         });
 
 
+        // $(document).ready(function() {
+        //     // When a radio button is clicked
+        //     $('.address-option').on('click', function() {
+        //         // Select the corresponding radio button
+        //         $(this).find('input[type="radio"]').prop('checked', true);
+        //     });
+
+        //     // When the select button is clicked
+        //     $('#select-address-button').on('click', function() {
+        //         // Get the selected address
+        //         var selectedAddress = $('input[name="address"]:checked');
+        //         // Get address details from data attributes
+        //         var addressName = selectedAddress.closest('.address-option').data('address-name');
+        //         var addressPhone = selectedAddress.closest('.address-option').data('address-phone');
+        //         var addressDetails = selectedAddress.closest('.address-option').data('address-details');
+        //         var addressPostcode = selectedAddress.closest('.address-option').data('address-postcode');
+
+        //         // Update the main address section
+        //         $('#address-name').text(addressName);
+        //         $('#address-phone').text(addressPhone);
+        //         $('#address-details').text(addressDetails);
+        //         $('#address-postcode').text(addressPostcode);
+        //     });
+        // });
         $(document).ready(function() {
-            // When a radio button is clicked
-            $('.address-option').on('click', function() {
-                // Select the corresponding radio button
-                $(this).find('input[type="radio"]').prop('checked', true);
-            });
-
-            // When the select button is clicked
-            $('#select-address-button').on('click', function() {
-                // Get the selected address
-                var selectedAddress = $('input[name="address"]:checked');
-                if (selectedAddress.length > 0) {
-                    // Get address details from data attributes
-                    var addressName = selectedAddress.closest('.address-option').data('address-name');
-                    var addressPhone = selectedAddress.closest('.address-option').data('address-phone');
-                    var addressDetails = selectedAddress.closest('.address-option').data('address-details');
-                    var addressPostcode = selectedAddress.closest('.address-option').data('address-postcode');
-
-                    // Update the main address section
-                    $('#address-name').text(addressName);
-                    $('#address-phone').text(addressPhone);
-                    $('#address-details').text(addressDetails);
-                    $('#address-postcode').text(addressPostcode);
-
-                    // Close the modal (assuming you're using a modal library, adjust accordingly)
-                    // $('#address-modal').addClass('hidden'); // Hide the modal
-                } else {
-                    alert('Please select an address.');
-                }
+            $('input[name="address"]').on('change', function() {
+                var selectedAddress = $(this).closest('.address-option');
+                $('#address-name').html(selectedAddress.data('address-name') + ' <span class="text-gray-400 text-base" id="address-phone">' + selectedAddress.data('address-phone') + '</span>');
+                $('#address-details').text(selectedAddress.data('address-details'));
+                $('#address-postcode').text(selectedAddress.data('address-postcode'));
             });
         });
     </script>

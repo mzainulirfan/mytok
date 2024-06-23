@@ -119,7 +119,13 @@ class Orders extends BaseController
     {
         // Ambil data keranjang belanja dari session
         $cartItems = session()->get('cart') ?? [];
-        $addresses = $this->addressModel->findAll();;
+        $sessionUserId = session()->get('user_id');
+        // dd();
+        $addresses = $this->addressModel->findAll();
+        $userMainAddress = $this->addressModel->where('address_user_id', $sessionUserId)->where('address_is_main', 1)->first();
+        $userAddress = $this->addressModel->where('address_user_id', $sessionUserId)->findAll();
+        $user = $this->userModel->find($sessionUserId);
+        // dd($sessionUserId, $userAddress);
 
         // Hitung total jumlah quantity
         $totalQuantity = 0;
@@ -137,7 +143,9 @@ class Orders extends BaseController
             'title' => 'cart',
             'cartItems' => $cartItems,
             'totalQuantity' => $totalQuantity,
-            'addresses' => $addresses,
+            'addresses' => $userAddress,
+            'userAddress' => $userMainAddress,
+            'user' => $user,
             'totalPrice' => $totalPrice //
         ];
         return view('orders/create', $data);
