@@ -22,7 +22,7 @@
     <script src="<?= base_url(); ?>dist/js/jquery-3.7.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     <script>
-        // change category 
+        // change category
         $(document).ready(function() {
             // Delegation to handle dynamically added elements
             $(document).on('click', '#btnEdit', function() {
@@ -38,7 +38,7 @@
                 $('#categoryDescription').val(categoryDescription);
             });
         });
-        // update stock 
+        // update stock
         $(document).ready(function() {
             // Delegation to handle dynamically added elements
             $(document).on('click', '#btnUpdateStock', function() {
@@ -61,7 +61,7 @@
         // edit address user
         $(document).ready(function() {
             $(document).on('click', '#btnEditAddress', function() {
-                // ambil data dari tombol 
+                // ambil data dari tombol
                 var addressId = $(this).data('addressid');
                 var addressName = $(this).data('addressname');
                 var addressLine = $(this).data('addressline');
@@ -70,7 +70,7 @@
                 var addressKabupaten = $(this).data('addresskab');
                 var addressProv = $(this).data('addressprov');
                 var addressPostal = $(this).data('addresspostal');
-                // simpan nilai kedalam input 
+                // simpan nilai kedalam input
                 $('#currentAddressId').val(addressId);
                 $('#addressName').val(addressName);
                 $('#nameLabel').text(addressName);
@@ -82,7 +82,7 @@
                 $('#addressPostalCode').val(addressPostal);
             });
         });
-        // img preview 
+        // img preview
         $(document).ready(function() {
             $('#photoUser').change(function() {
                 var input = this;
@@ -95,6 +95,39 @@
                     reader.readAsDataURL(input.files[0]);
                 } else {
                     $('#previewDiv').addClass('hidden');
+                }
+            });
+        });
+
+
+        $(document).ready(function() {
+            // When a radio button is clicked
+            $('.address-option').on('click', function() {
+                // Select the corresponding radio button
+                $(this).find('input[type="radio"]').prop('checked', true);
+            });
+
+            // When the select button is clicked
+            $('#select-address-button').on('click', function() {
+                // Get the selected address
+                var selectedAddress = $('input[name="address"]:checked');
+                if (selectedAddress.length > 0) {
+                    // Get address details from data attributes
+                    var addressName = selectedAddress.closest('.address-option').data('address-name');
+                    var addressPhone = selectedAddress.closest('.address-option').data('address-phone');
+                    var addressDetails = selectedAddress.closest('.address-option').data('address-details');
+                    var addressPostcode = selectedAddress.closest('.address-option').data('address-postcode');
+
+                    // Update the main address section
+                    $('#address-name').text(addressName);
+                    $('#address-phone').text(addressPhone);
+                    $('#address-details').text(addressDetails);
+                    $('#address-postcode').text(addressPostcode);
+
+                    // Close the modal (assuming you're using a modal library, adjust accordingly)
+                    // $('#address-modal').addClass('hidden'); // Hide the modal
+                } else {
+                    alert('Please select an address.');
                 }
             });
         });

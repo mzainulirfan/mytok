@@ -43,6 +43,7 @@ $routes->group(
         $routes->get('', 'Orders::index');
         $routes->get('create', 'Orders::createOrder');
         $routes->post('addToCart', 'Orders::addToCart');
+        $routes->post('updateItemQty', 'Orders::updateItemQty');
         $routes->post('clearCart', 'Orders::clearCart');
         $routes->post('removeFromCart', 'Orders::removeFromCart');
         $routes->post('checkout', 'Orders::checkout');

@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\ProductsModel;
 use App\Models\UsersModel;
 use App\Models\OrdersModel;
+use App\Models\AddressModel;
 use App\Models\ItemOrderModel;
 
 class Orders extends BaseController
@@ -13,6 +14,7 @@ class Orders extends BaseController
     protected $productModel;
     protected $userModel;
     protected $orderModel;
+    protected $addressModel;
     protected $itemOrderModel;
 
     public function __construct()
@@ -20,6 +22,7 @@ class Orders extends BaseController
         $this->productModel = new ProductsModel();
         $this->userModel = new UsersModel();
         $this->orderModel = new OrdersModel();
+        $this->addressModel = new AddressModel();
         $this->itemOrderModel = new ItemOrderModel();
     }
 
@@ -89,12 +92,34 @@ class Orders extends BaseController
         // Redirect or perform other operations
         return redirect()->back()->with('success', 'Product added to cart successfully.');
     }
+    public function updateItemQty()
+    {
+        $productId = $this->request->getPost('productId');
+        $productQty = $this->request->getPost('productQty');
+
+        if ($productQty <= 0) {
+            return redirect()->back()->with('error', 'Quantity must be greater than zero.');
+        }
+
+        $cart = session()->get('cart');
+        foreach ($cart as &$item) {
+            if ($item['product_id'] === $productId) {
+                $item['quantity'] = $productQty;
+                break;
+            }
+        }
+
+        session()->set('cart', $cart);
+
+        return redirect()->back()->with('success', 'Cart updated successfully.');
+    }
 
 
     public function createOrder()
     {
         // Ambil data keranjang belanja dari session
         $cartItems = session()->get('cart') ?? [];
+        $addresses = $this->addressModel->findAll();;
 
         // Hitung total jumlah quantity
         $totalQuantity = 0;
@@ -112,6 +137,7 @@ class Orders extends BaseController
             'title' => 'cart',
             'cartItems' => $cartItems,
             'totalQuantity' => $totalQuantity,
+            'addresses' => $addresses,
             'totalPrice' => $totalPrice //
         ];
         return view('orders/create', $data);
@@ -148,11 +174,38 @@ class Orders extends BaseController
         // Redirect atau lakukan operasi lainnya
         return redirect()->back()->with('success', 'Cart cleared successfully.');
     }
+    public function updateCartItem()
+    {
+        $productId = $this->request->getPost('productId');
+        $quantity = $this->request->getPost('quantity');
+
+        // Ambil data keranjang belanja dari session
+        $cartItems = session()->get('cart') ?? [];
+
+        // Update quantity untuk produk yang bersangkutan
+        foreach ($cartItems as &$item) {
+            if ($item['product_id'] == $productId) {
+                $item['quantity'] = $quantity;
+                break;
+            }
+        }
+
+        // Simpan kembali data keranjang belanja ke session
+        session()->set('cart', $cartItems);
+
+        return redirect()->to(base_url('cart'));
+    }
     public function checkout()
     {
         // Ambil data keranjang belanja dari session
         $cartItems = session()->get('cart') ?? [];
         $orderBy = session()->get('user_id');
+        // $productQty = [];
+        // foreach ($cartItems as $item) {
+        //     $productQty[] = $item['quantity'];
+        // }
+
+        // dd($productQty);
         $data = [
             'order_total_amount' =>  $this->request->getVar('totalAmount'),
             'order_user_id' => $orderBy,
@@ -187,6 +240,8 @@ class Orders extends BaseController
         session()->remove('cart');
         return redirect()->to('orders');
     }
+
+
     public function orderDetail($orderId)
     {
         $order = $this->orderModel->find($orderId);
