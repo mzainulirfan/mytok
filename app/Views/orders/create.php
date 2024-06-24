@@ -27,7 +27,7 @@
                         <div class="flex flex-col justify-between">
                             <div class="flex flex-col">
                                 <a href="<?= base_url(); ?>product/<?= esc($item['product_slug']); ?>/detail" class="font-semibold capitalize"><?= esc($item['product_name']); ?><span class="px-2 py-0.5 bg-green-100 rounded text-xs capitalize font-semibold text-green-600">In Stock</span></a>
-                                <p>Stock : <span class="text-sm font-semibold"><?= esc($item['product_stock']); ?></span></p>
+                                <p class="text-sm text-gray-400"><?= esc($item['product_stock']); ?> Available</p>
                             </div>
                             <form action="<?= base_url(); ?>orders/removeFromCart" method="post">
                                 <?= csrf_field(); ?>

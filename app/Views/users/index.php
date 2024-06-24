@@ -45,13 +45,13 @@
                                 </a>
                             </th>
                             <td class="px-6 py-4">
-                                <span class="font-semibold text-gray-700"><?= esc($user['email_user']); ?></span>
+                                <span class="text-gray-500"><?= esc($user['email_user']); ?></span>
                             </td>
                             <td class="px-6 py-4">
-                                <span class="font-semibold text-gray-700 capitalize"><?= esc($user['gender_user']); ?></span>
+                                <span class="text-gray-500 capitalize"><?= esc($user['gender_user']); ?></span>
                             </td>
                             <td class="px-6 py-4">
-                                <?php if ($user['is_active_user'] == true) : ?>
+                                <?php if ($user['is_active_user']) : ?>
                                     <span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full capitalize">
                                         <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
                                         active
